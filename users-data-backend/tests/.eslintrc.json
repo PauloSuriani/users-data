@@ -1,0 +1,7 @@
+{
+    "rules": {
+        "max-lines": "off",
+        "max-lines-per-function": "off",
+        "max-len": "off"
+    }
+}
