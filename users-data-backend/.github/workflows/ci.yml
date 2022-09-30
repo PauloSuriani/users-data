@@ -1,0 +1,52 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.9.0"
+      - run: npm ci
+      - run: npm run lint
+
+  tests:
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        node_version:
+          - "18.9.0"
+          # - "16.17.0"
+        os:
+          - ubuntu-22.04
+          # - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    services:
+      mysql:
+        image: mysql:8.0.21
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.9.0"
+      - run: npm ci
+      - run: npm run test
+        env:
+          MYSQL_HOST: "127.0.0.1"
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
