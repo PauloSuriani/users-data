@@ -1,14 +1,14 @@
 import express, { NextFunction, Request, Response } from 'express';
-// import BaseHTTPError from './errors/httpError';
+import BaseHTTPError from './errors/httpError';
 // import addressRouter from './routes/address';
-// import personRouter from './routes/person';
+import userRouter from './routes/user';
 
 const app = express();
 
 app.use(express.json());
 
-app.use(personRouter);
-app.use(addressRouter);
+app.use(userRouter);
+// app.use(addressRouter);
 
 app.use((err: BaseHTTPError, _: Request, res: Response, __: NextFunction) => {
   if (err.statusCode) {
