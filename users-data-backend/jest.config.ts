@@ -15,6 +15,7 @@ const config: Config = {
     '!src/models/model.ts',
   ],
   coverageDirectory: 'tests/coverage',
+// é rejeitado se não cumprir estes requerimentos mínimos
 //   coverageThreshold: {
 //     global: {
 //       functions: 60,
@@ -22,6 +23,7 @@ const config: Config = {
 //       branches: 90
 //     },
 //   },
+//roda arquivo antes de começar os testes
   setupFiles: [
     '<rootDir>/tests/setEnvVars.ts'
   ],
