@@ -8,9 +8,9 @@ export default class UserModel implements SimpleModel<User> {
   async create(obj: User) {
     await this.connection.execute(
       `INSERT INTO users_data_db.users(
-        name
+        contato
       ) VALUES (?);`,
-      [obj.name]
+      [obj.contact]
     );
   }
 
@@ -25,7 +25,7 @@ export default class UserModel implements SimpleModel<User> {
 
   async find(id: number): Promise<User | null> {
     const result = await this.connection.execute(
-      `SELECT name
+      `SELECT contato
       FROM users_data_db.users as p WHERE p.id = ?;`, [id]
     );
     const [users] = result as RowDataPacket[];
