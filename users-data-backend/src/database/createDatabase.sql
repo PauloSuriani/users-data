@@ -1,29 +1,85 @@
 CREATE SCHEMA IF NOT EXISTS users_data_db;
 
 CREATE TABLE
-    IF NOT EXISTS users_data_db.users (
-        id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        razao_social TEXT,
-        nome_fantasia TEXT,
-        address_id INTEGER,
-        bairro TEXT,
-        fone TEXT,
-        cnpj TEXT,
-        email TEXT,
-        contato TEXT
-        -- FOREIGN KEY (address_id) REFERENCES users_data_db.addresses(id)
-    );
+  IF NOT EXISTS users_data_db.users (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    razao_social TEXT,
+    nome_fantasia TEXT,
+    contato TEXT,
+    fone TEXT,
+    cnpj TEXT,
+    email TEXT,
+    address_id INTEGER
+    -- FOREIGN KEY (address_id) REFERENCES users_data_db.addresses(id)
+  );
+
+  INSERT INTO users_data_db.users VALUES 
+  ('DevTests LTDA', 'Devs', 'Paulão', '34 9966 7 3334', '64546', 'paulosuriani@gmail.com');
 
 CREATE TABLE
-    IF NOT EXISTS users_data_db.addresses (
-        id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        street TEXT NOT NULL,
-        number TEXT NOT NULL,
-        city TEXT NOT NULL,
-        state TEXT NOT NULL,
-        country TEXT NOT NULL,
-        user_id INTEGER,
-        FOREIGN KEY (user_id) REFERENCES users_data_db.users(id)
-    );
+  IF NOT EXISTS users_data_db.states (
+    id INTEGER PRIMARY KEY NOT NULL,
+    state_name TEXT,
+    uf TEXT
+  );
 
-alter table users_data_db.users add foreign key (address_id) references users_data_db.addresses(id);
+CREATE TABLE
+  IF NOT EXISTS users_data_db.cities (
+    id INTEGER PRIMARY KEY NOT NULL,
+    city_name TEXT NOT NULL,
+    state_id INTEGER NOT NULL,
+    FOREIGN KEY (state_id) REFERENCES users_data_db.states(id)
+  );
+
+CREATE TABLE
+  IF NOT EXISTS users_data_db.addresses (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    rua TEXT,
+    nro TEXT,
+    bairro TEXT,
+    user_id INTEGER,
+    city_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users_data_db.users(id),
+    FOREIGN KEY (city_id) REFERENCES users_data_db.cities(id)
+  );
+
+
+
+-- alter table users_data_db.users add foreign key (address_id) references users_data_db.addresses(id);
+
+-- INSERT INTO users_data_db.states (id, state_name, uf) 
+-- VALUES
+-- (1, 'Acre', 'AC'),
+-- (2, 'Alagoas', 'AL'),
+-- (3, 'Amazonas', 'AM'),
+-- (4, 'Amapá', 'AP'),
+-- (5, 'Bahia', 'BA'),
+-- (6, 'Ceará', 'CE'),
+-- (7, 'Distrito Federal', 'DF'),
+-- (8, 'Espírito Santo', 'ES'),
+-- (9, 'Goiás', 'GO'),
+-- (10, 'Maranhão', 'MA'),
+-- (11, 'Minas Gerais', 'MG'),
+-- (12, 'Mato Grosso do Sul', 'MS'),
+-- (13, 'Mato Grosso', 'MT'),
+-- (14, 'Pará', 'PA'),
+-- (15, 'Paraíba', 'PB'),
+-- (16, 'Pernambuco', 'PE'),
+-- (17, 'Piauí', 'PI'),
+-- (18, 'Paraná', 'PR'),
+-- (19, 'Rio de Janeiro', 'RJ'),
+-- (20, 'Rio Grande do Norte', 'RN'),
+-- (21, 'Rondônia', 'RO'),
+-- (22, 'Roraima', 'RR'),
+-- (23, 'Rio Grande do Sul', 'RS'),
+-- (24, 'Santa Catarina', 'SC'),
+-- (25, 'Sergipe', 'SE'),
+-- (26, 'São Paulo', 'SP'),
+-- (27, 'Tocantins', 'TO'),
+-- (99, 'Exterior', 'EX');
+
+
+-- INSERT INTO users_data_db.cities (id, city_name, state_id) 
+-- VALUES (1, 'Uberlândia', 11),
+-- (2, 'Uberaba', 11),
+-- (3, 'Araguari', 11);
