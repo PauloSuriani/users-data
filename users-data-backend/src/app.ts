@@ -1,9 +1,13 @@
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import BaseHTTPError from './errors/httpError';
 // import addressRouter from './routes/address';
 import userRouter from './routes/user';
 
 const app = express();
+
+// app.use(cors);
+app.use(cors({ origin: 'http://localhost:5173'}));
 
 app.use(express.json());
 
