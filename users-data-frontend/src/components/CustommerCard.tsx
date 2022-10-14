@@ -9,7 +9,7 @@ type CustommerProps = {
     cnpj?: string;
     email?: string; 
     cidade?: string;
-    estado?: string;
+    uf?: string;
   
   }
   
@@ -32,6 +32,10 @@ type CustommerProps = {
         <div>
           <label>Cidade</label>
           <div>{props.cidade}</div>
+        </div>
+        <div>
+          <label>Estado</label>
+          <div>{props.uf}</div>
         </div>
         <div>
           <label>Endereço</label>
