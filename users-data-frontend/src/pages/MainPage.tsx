@@ -33,8 +33,6 @@ export function MainPage() {
   };
 
   function handlePrint() {
-    // implementar modal para confirmação:
-    // const printCustommers = allCustommers.filter((custommer) => toPrintQueue.includes(custommer['id']));
     const printCustommers:[] = [];
     filteredCustommers.map((custommer) => { 
       if (toPrintQueue.includes(custommer['id'])){
@@ -48,7 +46,6 @@ export function MainPage() {
   
   function updateInputValue(event:any) {
     const value:any = event.target.value;
-    setStateSearch(value);
     const field:string = event.target.id;
     const filteredCus:[] = [];
     allCustommers.map(custommer => {
@@ -77,7 +74,6 @@ export function MainPage() {
       <h1>Main Page</h1>
       <button onClick={handlePrint}>Imprimir</button>
       <button>Adicionar Novo Cliente</button>
-      {/*<SearchBar />*/}
       <div className="SearchBar" style={{display: 'block'}}>
         <h2>Buscar...</h2>
         <label style={{paddingRight: '5px', fontSize: '20px', display: 'block'}}>Contato</label>
