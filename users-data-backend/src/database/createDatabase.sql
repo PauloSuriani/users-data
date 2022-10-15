@@ -3,33 +3,15 @@ CREATE SCHEMA IF NOT EXISTS users_data_db;
 CREATE TABLE
   IF NOT EXISTS users_data_db.users (
     id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    role TEXT,
     razao_social TEXT,
     nome_fantasia TEXT,
     contato TEXT,
-    fone TEXT,
+    telefone TEXT,
     cnpj TEXT,
-    email TEXT,
-    address_id INTEGER
-    -- FOREIGN KEY (address_id) REFERENCES users_data_db.addresses(id)
+    email TEXT
   );
 
-  INSERT INTO users_data_db.users VALUES 
-  ('DevTests LTDA', 'Devs', 'Paulão', '34 9966 7 3334', '64546', 'paulosuriani@gmail.com');
-
-CREATE TABLE
-  IF NOT EXISTS users_data_db.states (
-    id INTEGER PRIMARY KEY NOT NULL,
-    state_name TEXT,
-    uf TEXT
-  );
-
-CREATE TABLE
-  IF NOT EXISTS users_data_db.cities (
-    id INTEGER PRIMARY KEY NOT NULL,
-    city_name TEXT NOT NULL,
-    state_id INTEGER NOT NULL,
-    FOREIGN KEY (state_id) REFERENCES users_data_db.states(id)
-  );
 
 CREATE TABLE
   IF NOT EXISTS users_data_db.addresses (
@@ -37,13 +19,32 @@ CREATE TABLE
     rua TEXT,
     nro TEXT,
     bairro TEXT,
-    user_id INTEGER,
-    city_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users_data_db.users(id),
-    FOREIGN KEY (city_id) REFERENCES users_data_db.cities(id)
+    cidade TEXT,
+    uf TEXt,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users_data_db.users(id)
   );
 
+-- db populate:
+-- 1st - insert user
+INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, fone, cnpj, email, role )
+  VALUES 
+('DevTests LTDA', 'Devs', 'Paulão', '34 9966 7 3334', '64546087', 'paulosuriani@gmail.com', 'admin');
 
+INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, fone, cnpj, email, role )
+  VALUES 
+('Lorem Ipsum LTDA', 'Lor', 'John Doe', '34 9966 7 3334', '64546087', 'johndoe@gmail.com', 'custommer');
+
+-- 2nd - insert addresses
+INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+  VALUES 
+('Rua das Couves', '400', 'Pres. Roosevelt', 1, 'Uberlândia', 'MG');
+
+INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+  VALUES 
+('Rua Lorem Ipsum', '123', 'Residencial John Doe III', 2, 'Catalao', 'GO');
+
+-- 3rd - UPDATE no novo Id do backend
 
 -- alter table users_data_db.users add foreign key (address_id) references users_data_db.addresses(id);
 
@@ -83,3 +84,18 @@ CREATE TABLE
 -- VALUES (1, 'Uberlândia', 11),
 -- (2, 'Uberaba', 11),
 -- (3, 'Araguari', 11);
+
+-- CREATE TABLE
+--   IF NOT EXISTS users_data_db.states (
+--     id INTEGER PRIMARY KEY NOT NULL,
+--     state_name TEXT,
+--     uf TEXT
+--   );
+
+-- CREATE TABLE
+--   IF NOT EXISTS users_data_db.cities (
+--     id INTEGER PRIMARY KEY NOT NULL,
+--     city_name TEXT NOT NULL,
+--     state_id INTEGER NOT NULL,
+--     FOREIGN KEY (state_id) REFERENCES users_data_db.states(id)
+--   );
