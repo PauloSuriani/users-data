@@ -5,13 +5,13 @@ import UserInterface from '../interfaces/user';
 import { UserService } from '../services/user';
 
 export async function create(req: Request, res: Response, next: NextFunction) {
-  const { contact } = req.body as UserInterface;
+  const { razao_social, nome_fantasia, contato, telefone, cnpj, email, role } = req.body as UserInterface;
   const userService = new UserService();
   try {
-    if (contact === undefined) {
+    if (contato === undefined) {
       throw new BadRequest('Você precisa enviar o nome da pessoa');
     }
-    await userService.create({ contact });
+    await userService.create({ razao_social, nome_fantasia, contato, telefone, cnpj, email, role });
     res.status(201).send();
   } catch (err) {
     next(err);
