@@ -3,14 +3,13 @@ type CustommerProps = {
     contato?: string;
     razao_social?: string;
     nome_fantasia?: string;
-    endereco?: string;
+    logradouro?: string;
     bairro?: string;
     telefone?: string;
     cnpj?: string;
     email?: string; 
     cidade?: string;
     uf?: string;
-  
   }
   
   export function CustommerCard(props: CustommerProps) {
@@ -39,7 +38,7 @@ type CustommerProps = {
         </div>
         <div>
           <label>Endereço</label>
-          <div>{props.endereco}</div>
+          <div>{props.logradouro}</div>
         </div>
         <div>
           <label>Bairro</label>
