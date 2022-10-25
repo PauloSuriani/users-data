@@ -27,11 +27,11 @@ CREATE TABLE
 
 -- db populate:
 -- 1st - insert user
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, fone, cnpj, email, role )
+INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role )
   VALUES 
 ('DevTests LTDA', 'Devs', 'Paulão', '34 9966 7 3334', '64546087', 'paulosuriani@gmail.com', 'admin');
 
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, fone, cnpj, email, role )
+INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role )
   VALUES 
 ('Lorem Ipsum LTDA', 'Lor', 'John Doe', '34 9966 7 3334', '64546087', 'johndoe@gmail.com', 'custommer');
 
