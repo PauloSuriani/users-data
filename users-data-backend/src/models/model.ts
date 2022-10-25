@@ -1,5 +1,5 @@
 export interface SimpleModel<T> {
-  create(obj: T): Promise<void>;
+  create(obj: T): Promise<number|undefined>;
   list(): Promise<Partial<T>[]>;
   find(id: number): Promise<Partial<T> | null>;
 }

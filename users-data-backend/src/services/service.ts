@@ -6,8 +6,8 @@ export default abstract class Service<T> {
     this.model = model;
   }
 
-  async create(obj: T): Promise<void> {
-    await this.model.create(obj);
+  async create(obj: T): Promise<number> {
+    return await this.model.create(obj) as number;
   }
 
   async list(): Promise<T[]> {

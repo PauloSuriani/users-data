@@ -11,6 +11,8 @@ export class SimpleMemoryModel<T> implements SimpleModel<T> {
   async create(obj: T) {
     this.memory.push({ ...obj, id: this.idCounter });
     this.idCounter++;
+    console.log('Memory model idCounter:', this.idCounter);
+    return this.idCounter;
   }
 
   async find(id: number): Promise<T | null> {
