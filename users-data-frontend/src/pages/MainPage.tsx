@@ -7,6 +7,9 @@ export function MainPage() {
   const [toPrintQueue, setToPrintQueue] = useState(Array<Number>);
   const [toPrintCustommers, setToPrintCustommers] = useState([]);
   const [printScreen, setPrintScreen] = useState(Boolean);
+  const [checkedState, setCheckedState] = useState(
+    new Array(filteredCustommers.length).fill(false)
+  );
   
 
   useEffect(() => {
@@ -19,7 +22,8 @@ export function MainPage() {
 
   function handleToPrintQueue(custommerId:number) {
     if (toPrintQueue.length === 0) {
-      setToPrintQueue([custommerId]);
+      const userId:Array<number> = [custommerId];
+      setToPrintQueue(userId);
     } else {
       let newArray: Array<Number> = toPrintQueue;
       if (toPrintQueue.includes(custommerId)) {
@@ -31,6 +35,14 @@ export function MainPage() {
       }
     }
   };
+
+  const handleOnChange = (position:number) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setCheckedState(updatedCheckedState);
+  }
 
   function handlePrint() {
     const printCustommers:[] = [];
@@ -87,16 +99,13 @@ export function MainPage() {
         <label style={{paddingRight: '5px', fontSize: '20px', display: 'block'}}>Estado</label>
         <input type="text" size={1} id="uf" onChange={evt => updateInputValue(evt)} />
       </div>
-      { filteredCustommers.map(custommer => {
-        let isChecked:boolean = false;
-        if (toPrintQueue.includes(custommer['id'])) {
-          isChecked = true;
-        }
+      { filteredCustommers.map((custommer, index) => {
+        let a 
         return (
           <div key={`custummer-card-${custommer['id']}`}>
             <div id={`custommer['id']`}>{ CustommerCard(custommer) }</div>
             <div>
-              <input type="checkbox" checked={isChecked} onChange={() => handleToPrintQueue(custommer['id'])}/>
+              <input  onChange={() => {handleToPrintQueue(custommer['id']); handleOnChange(index)}} type="checkbox"  checked={toPrintQueue.includes(custommer['id'])}/>
               <label>marcar para impressão</label>
             </div>
           </div>
