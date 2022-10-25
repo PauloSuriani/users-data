@@ -8,9 +8,10 @@ export default class AddressModel implements Model<Address> {
   async create(obj: Address) {
     await this.connection.execute(
       `INSERT INTO users_data_db.addresses(
-        rua, nro, bairro, cidade, user_id
-      ) VALUES (?, ?, ?, ?, ?);
-    `, [obj.rua, obj.nro, obj.bairro, obj.cidade, obj.user_id]);
+        rua, nro, bairro, cidade,uf, user_id
+      ) VALUES (?, ?, ?, ?, ?, ?);
+    `, [obj.rua, obj.nro, obj.bairro, obj.cidade, obj.uf, obj.user_id]);
+    return 0;
   }
 
   async list() {

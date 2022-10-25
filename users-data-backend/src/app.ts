@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import BaseHTTPError from './errors/httpError';
-// import addressRouter from './routes/address';
 import userRouter from './routes/user';
+import addressRouter from './routes/address'
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(cors({ origin: 'http://localhost:5173'}));
 app.use(express.json());
 
 app.use(userRouter);
-// app.use(addressRouter);
+app.use(addressRouter);
 
 app.use((err: BaseHTTPError, _: Request, res: Response, __: NextFunction) => {
   if (err.statusCode) {

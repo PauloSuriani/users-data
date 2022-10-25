@@ -9,7 +9,7 @@ export class AddressService extends Service<Address> {
     super(model);
   }
 
-  async create(obj: Address): Promise<void> {
+  async create(obj: Address): Promise<number> {
     if (obj.cidade.length <= 3) {
       throw new ValidationError(
         'A cidade precisa ter pelo menos 4 caracteres'
