@@ -8,7 +8,7 @@ export class UserService extends Service<User> {
     super(model);
   }
 
-  async create(obj: User): Promise<void> {
+  async create(obj: User): Promise<number> {
     // if (obj.contato.length <= 3) {
     //   throw new Error('O nome precisa ter pelo menos 4 caracteres');
     // }

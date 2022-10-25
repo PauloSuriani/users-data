@@ -2,16 +2,24 @@ import { NextFunction, Request, Response } from 'express';
 import BadRequest from '../errors/badRequest';
 import NotFound from '../errors/notFound';
 import UserInterface from '../interfaces/user';
+import AddressInterface from '../interfaces/address'
+import { AddressService } from '../services/address';
 import { UserService } from '../services/user';
 
 export async function create(req: Request, res: Response, next: NextFunction) {
   const { razao_social, nome_fantasia, contato, telefone, cnpj, email, role } = req.body as UserInterface;
+  const { rua, nro, bairro, cidade, uf } = req.body as AddressInterface;
   const userService = new UserService();
+  const addressService = new AddressService();
   try {
     if (contato === undefined) {
       throw new BadRequest('Você precisa enviar o nome da pessoa');
     }
-    await userService.create({ razao_social, nome_fantasia, contato, telefone, cnpj, email, role });
+    const user_id:number = await userService.create({ razao_social, nome_fantasia, contato, telefone, cnpj, email, role });
+    console.log('resultado da model', user_id, typeof user_id);
+    if(typeof user_id == "number"){
+      await addressService.create({ rua, nro, bairro, cidade, uf, user_id});
+    }
     res.status(201).send();
   } catch (err) {
     next(err);
