@@ -10,7 +10,12 @@ export default class AddressModel implements Model<Address> {
       `INSERT INTO users_data_db.addresses(
         rua, nro, bairro, cidade,uf, user_id
       ) VALUES (?, ?, ?, ?, ?, ?);
-    `, [obj.rua, obj.nro, obj.bairro, obj.cidade, obj.uf, obj.user_id]);
+    `, [obj.rua ? obj.rua : '(não cadastrado)', 
+      obj.nro ? obj.nro : '(não cadastrado)', 
+      obj.bairro ? obj.bairro : '(não cadastrado)', 
+      obj.cidade, 
+      obj.uf, 
+      obj.user_id]);
     return 0;
   }
 
@@ -33,8 +38,20 @@ export default class AddressModel implements Model<Address> {
     return addresses[0] as Address;
   }
 
-  async update(_id: number, _obj: Address): Promise<void> {
-    throw new Error('Not implemented error');
+  async update(id: number, obj: Address): Promise<void> {
+    await this.connection.execute(
+      `UPDATE users_data_db.addresses
+       SET rua = ?, nro = ?, bairro = ?, 
+          cidade = ?, uf = ?, user_id = ?
+       WHERE ID = ?;
+    `, [obj.rua ? obj.rua : '(não cadastrado)', 
+      obj.nro ? obj.nro : 'S/N', 
+      obj.bairro ? obj.bairro : '', 
+      obj.cidade, 
+      obj.uf, 
+      obj.user_id,
+      id]);
+    
   }
 
   async delete(_id: number): Promise<void> {
