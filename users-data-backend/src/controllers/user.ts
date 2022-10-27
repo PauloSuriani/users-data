@@ -15,8 +15,7 @@ export async function create(req: Request, res: Response, next: NextFunction) {
     if (contato === undefined) {
       throw new BadRequest('Você precisa enviar o nome da pessoa');
     }
-    const user_id:number = await userService.create({ razao_social, nome_fantasia, contato, telefone, cnpj, email, role });
-    console.log('resultado da model', user_id, typeof user_id);
+    const user_id:number = await userService.create({ razao_social, nome_fantasia, contato, telefone, cnpj, email, role: 'custommer' });
     if(typeof user_id == "number"){
       await addressService.create({ rua, nro, bairro, cidade, uf, user_id});
     }
@@ -29,11 +28,19 @@ export async function create(req: Request, res: Response, next: NextFunction) {
 export async function find(req: Request, res: Response, next: NextFunction) {
   const { id } = req.params;
   const userService = new UserService();
+  let formatedId = id.slice(id.length -1);
+  if (!id.slice(id.length -2).includes(':')){
+    formatedId = id.slice(id.length -2);
+  }
+  console.log('zaza: ', id.slice(id.length -1), id.slice(id.length -2), id.slice(id.length -3));
   try {
     if (id === undefined) {
       throw new BadRequest('Você precisa enviar o id da pesquisa');
     }
-    const obj = await userService.find(parseInt(id, 10));
+    const n = parseInt(formatedId);
+    console.log('id: ', n);
+    const obj = await userService.find(n);
+    console.log('obj: ', obj);
     if (!obj) {
       throw new NotFound('Pessoa não encontrada');
     }
@@ -48,6 +55,50 @@ export async function list(_req: Request, res: Response, next: NextFunction) {
   try {
     const userList = await userService.list();
     res.json(userList);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function update(req: Request, res: Response, next: NextFunction) {
+  const { id } = req.params;
+  const userService = new UserService();
+  const addressService = new AddressService();
+  let formatedId = id.slice(id.length -1);
+  if (!id.slice(id.length -2).includes(':')){
+    formatedId = id.slice(id.length -2);
+  }
+  const { razao_social, nome_fantasia, contato, telefone, cnpj, email, role } = req.body as UserInterface;
+  const { rua, nro, bairro, cidade, uf } = req.body as AddressInterface;
+  try {
+    if (id === undefined) {
+      throw new BadRequest('Você precisa enviar o id da exclusão');
+    }
+    const n = parseInt(formatedId);
+    console.log('id: ', n);
+    await userService.update(n, {razao_social, nome_fantasia, contato, telefone, cnpj, email, role:'custommer'});
+    await addressService.update(n, { rua, nro, bairro, cidade, uf, user_id: n});
+    res.status(200).json();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function erase(req: Request, res: Response, next: NextFunction) {
+  const { id } = req.params;
+  const userService = new UserService();
+  let formatedId = id.slice(id.length -1);
+  if (!id.slice(id.length -2).includes(':')){
+    formatedId = id.slice(id.length -2);
+  }
+  try {
+    if (id === undefined) {
+      throw new BadRequest('Você precisa enviar o id da exclusão');
+    }
+    const n = parseInt(formatedId);
+    console.log('id: ', n);
+    await userService.delete(n);
+    res.status(200).json();
   } catch (err) {
     next(err);
   }

@@ -16,24 +16,18 @@ export default class UserModel implements SimpleModel<User> {
   constructor(private connection = conn) { }
   async create(obj: User) {
     const result = await this.connection.execute(
-      `INSERT INTO users_data_db.users(razao_social, nome_fantasia, contato, fone, cnpj, email, role) 
+      `INSERT INTO users_data_db.users(razao_social, nome_fantasia, contato, telefone, cnpj, email, role) 
        VALUES (?, ?, ?, ?, ?, ?, ?);`,
-      [obj.razao_social, obj.nome_fantasia, obj.contato, obj.telefone, obj.cnpj, obj.email, 'custommer']
+      [obj.razao_social ? obj.razao_social : '(não cadastrada)', 
+      obj.nome_fantasia ? obj.nome_fantasia : '(não cadastrado)', 
+      obj.contato ? obj.contato : '(não cadastrado)', 
+      obj.telefone ? obj.telefone : '(não cadastrado)', 
+      obj.cnpj ? obj.cnpj : '(não cadastrado)', 
+      obj.email ? obj.email : '(não cadastrado)', 
+      obj.role ? obj.role : 'Admin']
     );
     const userIdResponse:ResultSetHeader = result[0] as ResultSetHeader;
-    console.log('resultado inserção: ', userIdResponse.insertId);
-    // let a:number = 0;
     return userIdResponse.insertId;
-    // a = result['insertId'] as number;
-    // if (typeof result['insertId'] != null){
-    //   return result['insertId'] as number;
-    // }
-    // return result['ResultSetHeader'].insertId;
-    // return 6;
-    // if (typeof result['insertId'] == "number"){
-
-      // return result.ResultSetHeader.insertId;
-    // }
   }
 
   async list() {
@@ -48,10 +42,43 @@ export default class UserModel implements SimpleModel<User> {
 
   async find(id: number): Promise<User | null> {
     const result = await this.connection.execute(
-      `SELECT contato
-       FROM users_data_db.users as p WHERE p.id = ?;`, [id]
+      `SELECT *
+       FROM users_data_db.users U, users_data_db.addresses A
+       WHERE A.USER_ID = U.ID
+       AND U.ID = ?;`, [id]
     );
     const [users] = result as RowDataPacket[];
     return users[0] as User;
+  }
+
+  async update(id: number, obj: User) {
+    const result = await this.connection.execute(
+      `UPDATE users_data_db.users
+       SET razao_social = ?, nome_fantasia = ?, contato = ?,
+          telefone = ?, cnpj = ?, email = ?, role = ?
+       WHERE ID = ?;
+       `,
+      [obj.razao_social ? obj.razao_social : '(não cadastrada)', 
+      obj.nome_fantasia ? obj.nome_fantasia : '(não cadastrado)', 
+      obj.contato ? obj.contato : '(não cadastrado)', 
+      obj.telefone ? obj.telefone : '(não cadastrado)', 
+      obj.cnpj ? obj.cnpj : '(não cadastrado)', 
+      obj.email ? obj.email : '(não cadastrado)', 
+      obj.role ? obj.role : 'Admin',
+      id]
+    );
+    const userIdResponse:ResultSetHeader = result[0] as ResultSetHeader;
+    return userIdResponse.insertId;
+  }
+
+  async delete(id: number): Promise<void>{
+    await this.connection.execute(
+      `DELETE FROM users_data_db.addresses A
+       WHERE A.USER_ID = ?;`, [id]
+    );
+    await this.connection.execute(
+      `DELETE FROM users_data_db.users U
+       WHERE U.ID = ?;`, [id]
+    );
   }
 }
