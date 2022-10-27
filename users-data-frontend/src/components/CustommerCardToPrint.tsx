@@ -3,64 +3,72 @@ type CustommerProps = {
   contato?: string;
   razao_social?: string;
   nome_fantasia?: string;
-  endereco?: string;
+  rua?: string;
+  nro?:string;
   bairro?: string;
   telefone?: string;
   cnpj?: string;
   email?: string; 
   cidade?: string;
-  estado?: string;
-
+  uf?: string;
 }
-
+  
 export function CustommerCardToPrint(props: CustommerProps) {
 
   return (
     <div className="CustommerCard">
-      <div>
-        <label>Nro.Registro</label>
+
+      <div style={{display: 'flex'}}>
+        <div>{props.contato}</div>
+        <span style={{paddingInline: '5px'}}>{` - `}</span>
+        <b><label style={{fontSize:'15px', paddingRight: '5px'}}>Nro.Registro:</label></b>
         <div>{props.id}</div>
       </div>
-      <div>
-        <label>Razão Social</label>
+
+      <div style={{display: 'flex'}}>
+        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Razão Social:</label></b>
         <div>{props.razao_social}</div>
       </div>
-      <div>
-        <label>Nome Fantasia</label>
+
+      <div style={{display: 'flex'}}>
+        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Nome Fantasia:</label></b>
         <div>{props.nome_fantasia}</div>
       </div>
-      <div>
-        <label>Cidade</label>
-        <div>{props.cidade}</div>
-      </div>
-      <div>
-        <label>Endereço</label>
-        <div>{props.endereco}</div>
-      </div>
-      <div>
-        <label>Bairro</label>
-        <div>{props.bairro}</div>
-        <label>Fone</label>
+      <div style={{display: 'flex'}}>
+        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Fone:</label></b>
         <div>{props.telefone}</div>
-      </div>
-      <div>
-        <label>CNPJ</label>
+      {/* </div>
+      <div style={{display: 'flex'}}> */}
+        <b><label style={{fontSize:'15px',paddingInline: '5px'}}>CNPJ:</label></b>
         <div>{props.cnpj}</div>
       </div>
-      <div>
-        <label>Email</label>
+      <div style={{display: 'flex'}}>
+        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Email:</label></b>
         <div>{props.email}</div>
       </div>
-      <div>
-        <label>Contato</label>
-        <div>{props.contato}</div>
+
+      <div style={{display: 'flex'}}>
+        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Município:</label></b>
+        <div>{props.cidade}</div>
+        <span style={{paddingInline: '5px'}}>{` - `}</span>
+        <div>{props.uf}</div>
       </div>
-      <div>
-        <label>{`Data de Entrega __/__/____`}</label>
+      
+      <div style={{display: 'flex'}}>
+        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Endereço:</label></b>
+        <div style={{display: 'flex'}}>
+          <div>{props.rua}</div>
+          <span>{`, `}</span>
+          <div style={{paddingLeft: '5px'}}>{props.nro}</div>
+        </div>
+      {/* </div>
+      <div style={{display: 'flex'}}> */}
+        {/* <label>Bairro:</label> */}
+        <div style={{paddingLeft: '5px'}}>{props.bairro}</div>
       </div>
       
       {/* <button>Adicionar à lista</button> */}
     </div>
   )
 }
-    
+      
