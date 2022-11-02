@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { EditCustommer } from "./EditCustommer";
 import { Modal } from "../components/modal";
 import { CustommerCardToPrint } from "../components/CustommerCardToPrint";
+// import { Helmet } from "react-helmet";
 
 // import { Redirect } from "react-router-dom";
 
@@ -23,12 +24,14 @@ export function MainPage() {
   
 
   useEffect(() => {
+    
     setPrintScreen(false);
     fetch('http://localhost:3000/user')
     .then(response => response.json())
     // .then(res => setAllCustommers(res.slice(0,10)))
     .then(res => {setAllCustommers(res), setFilteredCustommers(res);})
     .catch(err => console.log(err));
+
   }, []);
 
   function handleToPrintQueue(custommerId:number) {
@@ -91,16 +94,52 @@ export function MainPage() {
   const navigate = useNavigate();
   return (
     printScreen ?
-      <div> 
-        { toPrintCustommers.map((custommer, i) => {
-          return (
-            <div key={`to-print-card-${i+1}`} id={`to-print-card-${i+1}`}>
-              <div>{ CustommerCardToPrint(custommer) }</div>
-            </div>
-          )
-          })
-        }
-      </div>
+    <div>
+        <button onClick={() => {
+          const script = document.createElement('script');
+          script.textContent = `var table2excel = new Table2Excel();
+          table2excel.export(document.querySelectorAll("#example-table"));`;
+
+          script.async = true;
+  
+          document.body.appendChild(script);
+          return () => {
+            document.body.removeChild(script);
+          }
+        }}
+        >Gerar Excel
+        </button>
+
+      <table id="example-table">
+        <tr>
+          <th>Company</th>
+          <th>Contact</th>
+          <th>Country</th>
+        </tr>
+        <tr>
+          <td>Alfreds Futterkiste</td>
+          <td>Maria Anders</td>
+          <td>Germany</td>
+        </tr>
+        <tr>
+          <td>Centro comercial Moctezuma</td>
+          <td>Francisco Chang</td>
+          <td>Mexico</td>
+        </tr>
+      </table>
+      
+    </div>
+    
+      // <div> 
+      //   { toPrintCustommers.map((custommer, i) => {
+      //     return (
+      //       <div key={`to-print-card-${i+1}`} id={`to-print-card-${i+1}`}>
+      //         <div>{ CustommerCardToPrint(custommer) }</div>
+      //       </div>
+      //     )
+      //     })
+      //   }
+      // </div>
     // : editScreen ?
     // <div>{ EditCustommer(editCustommer) }</div> 
     :
