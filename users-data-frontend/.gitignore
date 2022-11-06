@@ -27,4 +27,5 @@ dist-ssr
 src/AppCopy.tsx
 src/index.css.exemple
 src/App.css.exemple
+src/components/CustommerCardToPrint copy.tsx
 
