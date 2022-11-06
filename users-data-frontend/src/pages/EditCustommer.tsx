@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { CustommerCard } from "../components/CustommerCard";
-import { Link, useNavigate } from 'react-router-dom';
-import { CustommerCardToPrint } from "../components/CustommerCardToPrint";
+import { useNavigate } from 'react-router-dom';
 
 type CustommerProps = {
     id?: number;
@@ -26,7 +24,6 @@ export function EditCustommer() {
 // searchParams.get("__firebase_request_key")
   const navigate = useNavigate();
 
-  // const fields = ['contato',  'razao_social', 'nome_fantasia', 'logradouro', 'bairro', 'telefone', 'cnpj', 'email', 'cidade', 'uf'];
   useEffect(() => {
     console.log(editedCustommer);
     const params = new URLSearchParams(window.location.href);
@@ -80,7 +77,6 @@ export function EditCustommer() {
       headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
       body: JSON.stringify(editedCustommer)
     })
-    // .then(response => response.json())
     .then(res => {
       console.log(res);
       if(res.status == 200){
@@ -96,7 +92,6 @@ export function EditCustommer() {
       method: "DELETE",
       headers: { 'Content-Type': 'application/json', 'Acept': '*/*' }
     })
-    // .then(response => response.json())
     .then(res => {
       console.log(res);
       if(res.status == 200){
@@ -127,7 +122,7 @@ export function EditCustommer() {
       <h1>{`Editar Cliente Nro.Registro: ${custommerId}`}</h1>
       
       <div className="new-custommer-block">
-        <div className="rectangle"/>
+        {/* <div className="rectangle"/> */}
         <div className="div-svg-btn">
           <svg cursor={'pointer'} className="svg-icon svg-nav-style" onClick={() => { navigate('/')}} viewBox="0 0 20 20">
 						<path d="M18.121,9.88l-7.832-7.836c-0.155-0.158-0.428-0.155-0.584,0L1.842,9.913c-0.262,0.263-0.073,0.705,0.292,0.705h2.069v7.042c0,0.227,0.187,0.414,0.414,0.414h3.725c0.228,0,0.414-0.188,0.414-0.414v-3.313h2.483v3.313c0,0.227,0.187,0.414,0.413,0.414h3.726c0.229,0,0.414-0.188,0.414-0.414v-7.042h2.068h0.004C18.331,10.617,18.389,10.146,18.121,9.88 M14.963,17.245h-2.896v-3.313c0-0.229-0.186-0.415-0.414-0.415H8.342c-0.228,0-0.414,0.187-0.414,0.415v3.313H5.032v-6.628h9.931V17.245z M3.133,9.79l6.864-6.868l6.867,6.868H3.133z"></path>
@@ -164,20 +159,6 @@ export function EditCustommer() {
             <label className="form-label">Telefones</label>
                 <input size={24} className="form-input" type="text" id="telefone" defaultValue={editedCustommer?.telefone} onInput={evt => updateInputValue(evt)}/> 
           </div>
-  {/* 
-          <h2>Dados Pessoais</h2>
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Contato</label>
-          <input style={{borderRadius: '6px'}} type="text" id="contato" defaultValue={editedCustommer?.contato} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>R.Social</label>
-          <input style={{borderRadius: '6px'}} type="text" id="razao_social" defaultValue={editedCustommer?.razao_social} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>N.Fantasia</label>
-          <input style={{borderRadius: '6px'}} type="text" id="nome_fantasia" defaultValue={editedCustommer?.nome_fantasia} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Cnpj</label>
-          <input style={{borderRadius: '6px'}} type="text" id="cnpj" defaultValue={editedCustommer?.cnpj} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Email</label>
-          <input style={{borderRadius: '6px'}} type="text" id="email" defaultValue={editedCustommer?.email} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Telefone</label>
-          <input style={{borderRadius: '6px'}} type="text" id="telefone" defaultValue={editedCustommer?.telefone} onInput={evt => updateInputValue(evt)}/>  */}
 
           <div className="table-custommer-form">
 
@@ -208,28 +189,12 @@ export function EditCustommer() {
               </div>
             </div>
 
-
             <label className="form-label">Email</label>
             <input size={36} className="form-input" type="text" id="email" defaultValue={editedCustommer?.email} onInput={evt => updateInputValue(evt)}/> 
 
           </div>
-          {/* <h2>Endereço</h2>
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Logradouro</label>
-          <input style={{borderRadius: '6px'}} type="text" id="rua" defaultValue={editedCustommer?.rua} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Nro.</label>
-          <input style={{borderRadius: '6px'}} type="text" id="nro" defaultValue={editedCustommer?.nro} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Bairro</label>
-          <input style={{borderRadius: '6px'}} type="text" id="bairro" defaultValue={editedCustommer?.bairro} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Cidade</label>
-          <input style={{borderRadius: '6px'}} type="text" id="cidade" defaultValue={editedCustommer?.cidade} onInput={evt => updateInputValue(evt)}/> 
-          <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Estado</label>
-          <input style={{borderRadius: '6px'}} type="text" id="uf" defaultValue={editedCustommer?.uf} onInput={evt => updateInputValue(evt)}/>  */}
-
         </div>
       </div>
-      {/*<button onClick={handleUpdateBtnClick}>Atualizar</button>
-      <button onClick={handleDeleteBtnClick}>Excluir</button>
-        <Link to="/" >Cancelar</Link>*/}
     </div>
   )
 }

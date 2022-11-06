@@ -16,59 +16,42 @@ type CustommerProps = {
 export function CustommerCardToPrint(props: CustommerProps) {
 
   return (
-    <div className="CustommerCard">
+    <tr  key={`to-print-card-${props.id}`} className="CustommerCard">
 
-      <div style={{display: 'flex'}}>
-        <div>{props.contato}</div>
-        <span style={{paddingInline: '5px'}}>{` - `}</span>
-        <b><label style={{fontSize:'15px', paddingRight: '5px'}}>Nro.Registro:</label></b>
-        <div>{props.id}</div>
-      </div>
+      <td>
+        {props.razao_social}
+      </td>
 
-      <div style={{display: 'flex'}}>
-        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Razão Social:</label></b>
-        <div>{props.razao_social}</div>
-      </div>
+      <td>
+        {props.nome_fantasia}
+      </td>
 
-      <div style={{display: 'flex'}}>
-        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Nome Fantasia:</label></b>
-        <div>{props.nome_fantasia}</div>
-      </div>
-      <div style={{display: 'flex'}}>
-        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Fone:</label></b>
-        <div>{props.telefone}</div>
-      {/* </div>
-      <div style={{display: 'flex'}}> */}
-        <b><label style={{fontSize:'15px',paddingInline: '5px'}}>CNPJ:</label></b>
-        <div>{props.cnpj}</div>
-      </div>
-      <div style={{display: 'flex'}}>
-        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Email:</label></b>
-        <div>{props.email}</div>
-      </div>
+      <td>
+        {`${props.cidade} - ${props.uf}`}
+      </td>
 
-      <div style={{display: 'flex'}}>
-        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Município:</label></b>
-        <div>{props.cidade}</div>
-        <span style={{paddingInline: '5px'}}>{` - `}</span>
-        <div>{props.uf}</div>
-      </div>
+      <td>
+        {`${props.rua}, ${props.nro} ${props.bairro}`}
+      </td>
+
+
+      <td>
+        {`${props.contato} - ${props.telefone}`}
+      </td>
+
+      <td>
+        {props.id}
+      </td>
+
+
+      <td>
+        {props.email}
+      </td>
       
-      <div style={{display: 'flex'}}>
-        <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Endereço:</label></b>
-        <div style={{display: 'flex'}}>
-          <div>{props.rua}</div>
-          <span>{`, `}</span>
-          <div style={{paddingLeft: '5px'}}>{props.nro}</div>
-        </div>
-      {/* </div>
-      <div style={{display: 'flex'}}> */}
-        {/* <label>Bairro:</label> */}
-        <div style={{paddingLeft: '5px'}}>{props.bairro}</div>
-      </div>
-      
-      {/* <button>Adicionar à lista</button> */}
-    </div>
+      <td>
+        {props.cnpj}
+      </td>
+    </tr>
   )
 }
       

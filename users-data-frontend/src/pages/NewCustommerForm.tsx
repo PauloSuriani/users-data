@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { CustommerCard } from "../components/CustommerCard";
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import  '/src/pages/CustommerForm.css';
 
 type CustommerObject = {
   contato?: string;
@@ -20,18 +20,14 @@ export function NewCustommerForm() {
   const [confirmScreen, setConfirmScreen] = useState(false);
   const [newCustommer, setNewCustommer] = useState({});
 
-  // const fields = ['contato',  'razao_social', 'nome_fantasia', 'logradouro', 'bairro', 'telefone', 'cnpj', 'email', 'cidade', 'uf'];
-  
+  const navigate = useNavigate();
 
   function handleAddBtnClick() {
-    console.log('setNewCustommer:', newCustommer as FormData);
-      // setPrintScreen(false);
       fetch('http://localhost:3000/user', {
         method: "POST",
         headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
         body: JSON.stringify(newCustommer)
       })
-      // .then(response => response.json())
       .then(res => {
         console.log(res);
         if(res.status == 201){
@@ -63,47 +59,97 @@ export function NewCustommerForm() {
   return (
     confirmScreen ?
       <div> 
-        <Link to="/" >{`<< Voltar à Página Inicial`}</Link>
-        <h2>Cliente Cadastrado com Sucesso!</h2>
-        <button onClick={cleanInputs}>Adicionar Novo Cliente</button>
+        <h1>Novo Cliente Cadastrado com Sucesso!</h1>
+        <div className="div-svg-btn">
+          <svg cursor={'pointer'} className="svg-icon svg-nav-style" onClick={() => { navigate('/')}} viewBox="0 0 20 20">
+						<path d="M18.121,9.88l-7.832-7.836c-0.155-0.158-0.428-0.155-0.584,0L1.842,9.913c-0.262,0.263-0.073,0.705,0.292,0.705h2.069v7.042c0,0.227,0.187,0.414,0.414,0.414h3.725c0.228,0,0.414-0.188,0.414-0.414v-3.313h2.483v3.313c0,0.227,0.187,0.414,0.413,0.414h3.726c0.229,0,0.414-0.188,0.414-0.414v-7.042h2.068h0.004C18.331,10.617,18.389,10.146,18.121,9.88 M14.963,17.245h-2.896v-3.313c0-0.229-0.186-0.415-0.414-0.415H8.342c-0.228,0-0.414,0.187-0.414,0.415v3.313H5.032v-6.628h9.931V17.245z M3.133,9.79l6.864-6.868l6.867,6.868H3.133z"></path>
+					</svg>
 
+          <svg cursor={'pointer'} onClick={cleanInputs} className="svg-nav-style svg-icon" viewBox="0 0 20 20">
+            <path d="M14.613,10c0,0.23-0.188,0.419-0.419,0.419H10.42v3.774c0,0.23-0.189,0.42-0.42,0.42s-0.419-0.189-0.419-0.42v-3.774H5.806c-0.23,0-0.419-0.189-0.419-0.419s0.189-0.419,0.419-0.419h3.775V5.806c0-0.23,0.189-0.419,0.419-0.419s0.42,0.189,0.42,0.419v3.775h3.774C14.425,9.581,14.613,9.77,14.613,10 M17.969,10c0,4.401-3.567,7.969-7.969,7.969c-4.402,0-7.969-3.567-7.969-7.969c0-4.402,3.567-7.969,7.969-7.969C14.401,2.031,17.969,5.598,17.969,10 M17.13,10c0-3.932-3.198-7.13-7.13-7.13S2.87,6.068,2.87,10c0,3.933,3.198,7.13,7.13,7.13S17.13,13.933,17.13,10"></path>
+          </svg>
+        </div>
       </div>
     : 
-    <div className="NewCustommerForm">
-      <Link to="/" > Voltar à página inicial </Link>
-      <h1>Cadastrar Novo Cliente</h1>
+    <div className="NewCustommerForm" >
       
-      <div className="NewCustommerForm" style={{display: 'block'}}>
-        <h2>Dados Pessoais</h2>
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Contato</label>
-        <input type="text" id="contato" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>R.Social</label>
-        <input type="text" id="razao_social" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>N.Fantasia</label>
-        <input type="text" id="nome_fantasia" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Cnpj</label>
-        <input type="text" id="cnpj" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Email</label>
-        <input type="text" id="email" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Telefone</label>
-        <input type="text" id="telefone" onChange={evt => updateInputValue(evt)}/> 
+      <h1 style={{textAlign: 'center'}}>Cadastrar Novo Cliente</h1>
+      
+      <div className="new-custommer-block">
+        <div className="custommer-form">
+          <div className="table-custommer-form">
+            <h2 style={{textAlign: 'left', paddingTop: '0px'}}>Dados Pessoais</h2>
+            <label className="form-label">Razão Social</label>
+            <input className="form-input" size={36} type="text" id="razao_social" onChange={evt => updateInputValue(evt)}/> 
+            <label className="form-label">Nome Fantasia</label>
+            <input size={36} className="form-input" type="text" id="nome_fantasia" onChange={evt => updateInputValue(evt)}/> 
+            
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+              <div style={{paddingLeft: '0px'}}>
+                <label className="form-label">CNPJ</label>
+                <input size={14} className="form-input" type="text" id="cnpj" onChange={evt => updateInputValue(evt)}/> 
+              </div>
+              <div>
+                <label className="form-label">Contatos</label>
+                <input size={17} className="form-input" type="text" id="contato" onChange={evt => updateInputValue(evt)}/> 
+              </div>
+            </div>
 
-        <h2>Endereço</h2>
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Logradouro</label>
-        <input type="text" id="rua" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Nro.</label>
-        <input type="text" id="nro" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Bairro</label>
-        <input type="text" id="bairro" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Cidade</label>
-        <input type="text" id="cidade" onChange={evt => updateInputValue(evt)}/> 
-        <label style={{paddingRight: '5px', fontSize: '18px', display: 'block'}}>Estado</label>
-        <input type="text" id="uf" onChange={evt => updateInputValue(evt)}/> 
+            <label className="form-label">Telefones</label>
+                <input size={24} className="form-input" type="text" id="telefone" onChange={evt => updateInputValue(evt)}/> 
+
+          </div>
+
+          <div className="table-custommer-form">
+
+            <h2 style={{textAlign: 'left'}}>Endereço</h2>
+
+            <div style={{display: 'flex'}}>
+              <div>
+                <label className="form-label">Cidade</label>
+                <input size={18} className="form-input" type="text" id="cidade" onChange={evt => updateInputValue(evt)}/> 
+              </div>
+              <div style={{paddingLeft: '10px'}}>
+                <label className="form-label">UF</label>
+                <input size={1} className="form-input" type="text" id="uf" onChange={evt => updateInputValue(evt)}/> 
+              </div>
+            </div>
+
+            <label className="form-label">Logradouro</label>
+            <input size={28} className="form-input" type="text" id="rua" onChange={evt => updateInputValue(evt)}/> 
+          
+            <div style={{display: 'flex'}}>
+              <div>
+                <label className="form-label">Nro.</label>
+                <input size={5} className="form-input" type="text" id="nro" onChange={evt => updateInputValue(evt)}/> 
+              </div>
+              <div style={{paddingLeft: '17px'}}>
+                <label className="form-label">Bairro</label>
+                <input size={18} className="form-input" type="text" id="bairro" onChange={evt => updateInputValue(evt)}/> 
+              </div>
+            </div>
+
+            <label className="form-label">Email</label>
+            <input size={36} className="form-input" type="text" id="email" onChange={evt => updateInputValue(evt)}/> 
+          
+          </div>
+
+        </div>
+        
+        <div className="div-svg-btn">
+
+          <svg cursor={'pointer'} className="svg-icon svg-nav-style" onClick={() => { navigate('/')}} viewBox="0 0 20 20">
+						<path d="M18.121,9.88l-7.832-7.836c-0.155-0.158-0.428-0.155-0.584,0L1.842,9.913c-0.262,0.263-0.073,0.705,0.292,0.705h2.069v7.042c0,0.227,0.187,0.414,0.414,0.414h3.725c0.228,0,0.414-0.188,0.414-0.414v-3.313h2.483v3.313c0,0.227,0.187,0.414,0.413,0.414h3.726c0.229,0,0.414-0.188,0.414-0.414v-7.042h2.068h0.004C18.331,10.617,18.389,10.146,18.121,9.88 M14.963,17.245h-2.896v-3.313c0-0.229-0.186-0.415-0.414-0.415H8.342c-0.228,0-0.414,0.187-0.414,0.415v3.313H5.032v-6.628h9.931V17.245z M3.133,9.79l6.864-6.868l6.867,6.868H3.133z"></path>
+					</svg>
+          
+          <svg cursor={'pointer'} onClick={handleAddBtnClick} className="svg-icon svg-nav-style" viewBox="0 0 20 20">
+            <path d="M14.613,10c0,0.23-0.188,0.419-0.419,0.419H10.42v3.774c0,0.23-0.189,0.42-0.42,0.42s-0.419-0.189-0.419-0.42v-3.774H5.806c-0.23,0-0.419-0.189-0.419-0.419s0.189-0.419,0.419-0.419h3.775V5.806c0-0.23,0.189-0.419,0.419-0.419s0.42,0.189,0.42,0.419v3.775h3.774C14.425,9.581,14.613,9.77,14.613,10 M17.969,10c0,4.401-3.567,7.969-7.969,7.969c-4.402,0-7.969-3.567-7.969-7.969c0-4.402,3.567-7.969,7.969-7.969C14.401,2.031,17.969,5.598,17.969,10 M17.13,10c0-3.932-3.198-7.13-7.13-7.13S2.87,6.068,2.87,10c0,3.933,3.198,7.13,7.13,7.13S17.13,13.933,17.13,10"></path>
+          </svg>
+
+        </div>
 
       </div>
-
-      <button onClick={handleAddBtnClick}>Adicionar</button>
-      <Link to="/" >Cancelar</Link>
+    
     </div>
   )
 }
