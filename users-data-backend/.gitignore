@@ -2,3 +2,4 @@ node_modules
 dist
 tests/coverage
 .env
+jwt.evaluation.key
