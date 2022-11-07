@@ -8,7 +8,9 @@ export default interface User {
   telefone?: string;
   cnpj?: string;
   email?: string; 
+  password: string;
   cidade?: string;
   uf?: string;
   role: string;
+  seller_id?: number
 }

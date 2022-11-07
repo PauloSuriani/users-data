@@ -16,15 +16,17 @@ export default class UserModel implements SimpleModel<User> {
   constructor(private connection = conn) { }
   async create(obj: User) {
     const result = await this.connection.execute(
-      `INSERT INTO users_data_db.users(razao_social, nome_fantasia, contato, telefone, cnpj, email, role) 
-       VALUES (?, ?, ?, ?, ?, ?, ?);`,
+      `INSERT INTO users_data_db.users(razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
       [obj.razao_social ? obj.razao_social : '(não cadastrada)', 
       obj.nome_fantasia ? obj.nome_fantasia : '(não cadastrado)', 
       obj.contato ? obj.contato : '(não cadastrado)', 
       obj.telefone ? obj.telefone : '(não cadastrado)', 
       obj.cnpj ? obj.cnpj : '(não cadastrado)', 
       obj.email ? obj.email : '(não cadastrado)', 
-      obj.role ? obj.role : 'Admin']
+      obj.role ? obj.role : 'admin',
+      obj.password,
+      obj.seller_id]
     );
     const userIdResponse:ResultSetHeader = result[0] as ResultSetHeader;
     return userIdResponse.insertId;
@@ -80,5 +82,26 @@ export default class UserModel implements SimpleModel<User> {
       `DELETE FROM users_data_db.users U
        WHERE U.ID = ?;`, [id]
     );
+  }
+
+  async login(email: string): Promise<RowDataPacket> {
+    const result = await this.connection.execute(
+      `SELECT *
+       FROM users_data_db.users U
+       WHERE U.EMAIL = ?;`, [email]
+    );
+    const [users] = result as RowDataPacket[];
+    return users;
+  }
+
+  async listBySellerId(id: number) {
+    const result = await this.connection.execute(
+      `SELECT *
+       FROM users_data_db.users U, users_data_db.addresses A
+       WHERE A.USER_ID = U.ID
+       AND U.SELLER_ID = ?;`, [id]
+    );
+    const [users] = result;
+    return users as User[];
   }
 }
