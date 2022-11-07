@@ -13,19 +13,47 @@ export function MainPage() {
   const [checkedState, setCheckedState] = useState(
     new Array(filteredCustommers.length).fill(false)
     );
+  // const [logged, setLogin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
       
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    setPrintScreen(false);
-    fetch('http://localhost:3000/user')
+    const storage = localStorage.getItem('user');
+
+    if (!storage) return navigate('/login');
+    // const { token } = storage;
+
+    if (JSON.parse(storage).token) {
+      setPrintScreen(false);
+      
+      const token:string = JSON.parse(storage).token;
+      console.log('tokem: ', token);
+
+      fetch('http://localhost:3000/login/validate', {
+        method: "GET",
+        headers: {  'Authorization': token,'Content-Type': 'application/json', 'Acept': '*/*' }
+      })
+      .then(response => response.json())
+      .then(() => {setIsAuthenticated(true); fillCustommers(JSON.parse(storage).id);})
+      .catch(() => navigate('/login'));
+    };
+
+  }, [navigate]);
+
+  function fillCustommers(sellerId:number) {
+    console.log('isAuthenticated: ', isAuthenticated);
+
+    // setPrintScreen(false);
+    const fetchUrl:string = `http://localhost:3000/custommer/${sellerId}`;
+    fetch(fetchUrl)
     .then(response => response.json())
-    // .then(res => setAllCustommers(res.slice(0,10)))
     .then(res => {setAllCustommers(res), setFilteredCustommers(res);})
     .catch(err => console.log(err));
 
-  }, []);
+
+  };
 
   function handleToPrintQueue(custommerId:number) {
     if (toPrintQueue.length === 0) {
@@ -131,7 +159,7 @@ export function MainPage() {
       </table>
       
     </div>
-    :
+    : isAuthenticated ?
     <div style={{backgroundColor: 'white',fontFamily: 'sans-serif'}} className="MainPage">
 
     
@@ -214,6 +242,7 @@ export function MainPage() {
       <label className="label-footer">Desenvolvido e mantido por paulosuriani@gmail.com</label>
 
     </div>
-  )
+    :  navigate('/login')
+  ) 
 }
     

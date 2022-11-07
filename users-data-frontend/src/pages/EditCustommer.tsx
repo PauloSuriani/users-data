@@ -20,11 +20,33 @@ export function EditCustommer() {
   const [confirmScreen, setConfirmScreen] = useState(false);
   const [editedCustommer, setEditedCustommer] = useState<CustommerProps>();
   const [custommerId, setCustommerId] = useState(String);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 //   const [searchParams, setSearchParams] = useSearchParams();
 // searchParams.get("__firebase_request_key")
   const navigate = useNavigate();
 
   useEffect(() => {
+    const storage = localStorage.getItem('user');
+
+    if (!storage) return navigate('/login');
+    // const { token } = storage;
+
+    if (JSON.parse(storage).token) {
+      const token:string = JSON.parse(storage).token;
+      console.log('token em new custommer: ', token);
+
+      fetch('http://localhost:3000/login/validate', {
+        method: "GET",
+        headers: {  'Authorization': token,'Content-Type': 'application/json', 'Acept': '*/*' }
+      })
+      .then(response => response.json())
+      .then(() => {setIsAuthenticated(true); renderCustommerForEdit();})
+      .catch(() => navigate('/login'));
+    };
+
+  }, [navigate]);
+
+  function renderCustommerForEdit() {
     console.log(editedCustommer);
     const params = new URLSearchParams(window.location.href);
     const len:number = window.location.href.length;
@@ -48,7 +70,7 @@ export function EditCustommer() {
     .then(response => response.json())
     .then(res => setEditedCustommer(res))
     .catch(err => console.log(err));
-  }, []);
+  };
 
   function updateInputValue(event:any) {
     console.log('editedCustommer', editedCustommer);
@@ -117,7 +139,7 @@ export function EditCustommer() {
         </div>
 
       </div>
-    : 
+    : isAuthenticated ?
     <div className="NewCustommerForm">
       <h1>{`Editar Cliente Nro.Registro: ${custommerId}`}</h1>
       
@@ -196,6 +218,7 @@ export function EditCustommer() {
         </div>
       </div>
     </div>
+    : navigate('/login')
   )
 }
     

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import  '/src/pages/CustommerForm.css';
 
@@ -14,15 +14,48 @@ type CustommerObject = {
   email?: string; 
   cidade?: string;
   uf?: string;
+  password?: string;
+  seller_id?: number;
+  role?: string;
 }
 
 export function NewCustommerForm() {
   const [confirmScreen, setConfirmScreen] = useState(false);
   const [newCustommer, setNewCustommer] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const storage = localStorage.getItem('user');
+
+    if (!storage) return navigate('/login');
+    // const { token } = storage;
+
+    if (JSON.parse(storage).token) {
+      const token:string = JSON.parse(storage).token;
+      console.log('token em new custommer: ', token);
+
+      fetch('http://localhost:3000/login/validate', {
+        method: "GET",
+        headers: {  'Authorization': token,'Content-Type': 'application/json', 'Acept': '*/*' }
+      })
+      .then(response => response.json())
+      .then(() => setIsAuthenticated(true))
+      .catch(() => navigate('/login'));
+    };
+
+  }, [navigate]);
+
+
   function handleAddBtnClick() {
+    if (isAuthenticated) {
+      let custommer:CustommerObject = newCustommer;
+      custommer['role'] = 'custommer';
+      custommer['password'] = '';
+      custommer['seller_id'] = JSON.parse(localStorage.getItem('user') as string).id;
+      setNewCustommer(custommer);
+      console.log('prefetch newcustommer', newCustommer);
       fetch('http://localhost:3000/user', {
         method: "POST",
         headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
@@ -35,6 +68,7 @@ export function NewCustommerForm() {
         }
       })
       .catch(err => console.log(err));
+    }
   }
 
   function cleanInputs() {
@@ -70,7 +104,7 @@ export function NewCustommerForm() {
           </svg>
         </div>
       </div>
-    : 
+    : isAuthenticated ?
     <div className="NewCustommerForm" >
       
       <h1 style={{textAlign: 'center'}}>Cadastrar Novo Cliente</h1>
@@ -151,6 +185,7 @@ export function NewCustommerForm() {
       </div>
     
     </div>
+    : navigate('/login')
   )
 }
     
