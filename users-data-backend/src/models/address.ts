@@ -10,9 +10,9 @@ export default class AddressModel implements Model<Address> {
       `INSERT INTO users_data_db.addresses(
         rua, nro, bairro, cidade,uf, user_id
       ) VALUES (?, ?, ?, ?, ?, ?);
-    `, [obj.rua ? obj.rua : '(não cadastrado)', 
-      obj.nro ? obj.nro : '(não cadastrado)', 
-      obj.bairro ? obj.bairro : '(não cadastrado)', 
+    `, [obj.rua ? obj.rua : '(sem endereço)', 
+      obj.nro ? obj.nro : 'S/N', 
+      obj.bairro ? obj.bairro : '', 
       obj.cidade, 
       obj.uf, 
       obj.user_id]);
