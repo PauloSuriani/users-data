@@ -13,7 +13,8 @@
     "lint": "eslint . --ext .ts",
     "dev": "ts-node-dev src",
     "prestart": "npm run build",
-    "start": "node dist/src"
+    "start": "node dist/src",
+    "postinstall": "tsc"
   },
   "keywords": [],
   "author": "",
