@@ -4,9 +4,9 @@ import { executeQueries } from './queryUtils';
 dotenv.config();
 
 const conn = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
 });
 
 /* c8 ignore start */

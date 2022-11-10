@@ -29,61 +29,61 @@ CREATE TABLE
 
 -- -- db populate:
 -- -- 1st - insert user: password '123456'
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
-  VALUES 
-('DevTests LTDA', 'Devs', 'Paulão', '34 9966 7 3334', '64546087', 'teste@teste', 'admin', '$2a$12$OdCzmttx2xIPgMEKkP6mRe6eq.G4wQrxocV/Ubtgzf9ozbkJs4bNy',  null);
+-- INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
+--   VALUES 
+-- ('DevTests LTDA', 'Devs', 'Paulão', '34 9966 7 3334', '64546087', 'teste@teste', 'admin', '$2a$12$OdCzmttx2xIPgMEKkP6mRe6eq.G4wQrxocV/Ubtgzf9ozbkJs4bNy',  null);
 
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
-  VALUES 
-('Lorem Ipsum LTDA', 'Lor', 'John Doe', '34 9966 7 3334', '64546087', 'johndoe@teste', 'custommer', '', 1);
+-- INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
+--   VALUES 
+-- ('Lorem Ipsum LTDA', 'Lor', 'John Doe', '34 9966 7 3334', '64546087', 'johndoe@teste', 'custommer', '', 1);
 
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
-  VALUES 
-('Natureza LTDA', 'Eletrônicos Inova', 'Rogério', '34 9866 7 3624', '11255087', 'rogerio@teste', 'seller', '$2a$12$OdCzmttx2xIPgMEKkP6mRe6eq.G4wQrxocV/Ubtgzf9ozbkJs4bNy', 1);
+-- INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
+--   VALUES 
+-- ('Natureza LTDA', 'Eletrônicos Inova', 'Rogério', '34 9866 7 3624', '11255087', 'rogerio@teste', 'seller', '$2a$12$OdCzmttx2xIPgMEKkP6mRe6eq.G4wQrxocV/Ubtgzf9ozbkJs4bNy', 1);
 
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
-  VALUES 
-('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer1@gmail.com', 'custommer','', 3);
+-- INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
+--   VALUES 
+-- ('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer1@gmail.com', 'custommer','', 3);
 
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
-  VALUES 
-('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer10@gmail.com', 'custommer','', 1);
+-- INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
+--   VALUES 
+-- ('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer10@gmail.com', 'custommer','', 1);
 
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
-  VALUES 
-('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer12@gmail.com', 'custommer','', 1);
+-- INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
+--   VALUES 
+-- ('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer12@gmail.com', 'custommer','', 1);
 
-INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
-  VALUES 
-('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer11@gmail.com', 'custommer','', 1);
--- -- 2nd - insert addresses
-INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
-  VALUES 
-('Rua das Couves', '400', 'Pres. Roosevelt', 1, 'Uberlândia', 'MG');
+-- INSERT INTO users_data_db.users (razao_social, nome_fantasia, contato, telefone, cnpj, email, role, password, seller_id )
+--   VALUES 
+-- ('FullStack SA', 'BackEnd', 'Programmer Sr', '34 9966 7 0004', '64546087', 'custommer11@gmail.com', 'custommer','', 1);
+-- -- -- 2nd - insert addresses
+-- INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+--   VALUES 
+-- ('Rua das Couves', '400', 'Pres. Roosevelt', 1, 'Uberlândia', 'MG');
 
-INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
-  VALUES 
-('Rua Lorem Ipsum', '123', 'Residencial John Doe III', 2, 'Catalao', 'GO');
+-- INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+--   VALUES 
+-- ('Rua Lorem Ipsum', '123', 'Residencial John Doe III', 2, 'Catalao', 'GO');
 
-INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
-  VALUES 
-('Rua das Couves', '400', 'Pres. Natureza', 3, 'Uberlândia', 'MG');
+-- INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+--   VALUES 
+-- ('Rua das Couves', '400', 'Pres. Natureza', 3, 'Uberlândia', 'MG');
 
-INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
-  VALUES 
-('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 4, 'Catalao', 'GO');
+-- INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+--   VALUES 
+-- ('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 4, 'Catalao', 'GO');
 
-INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
-  VALUES 
-('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 5, 'Araguari', 'MG');
+-- INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+--   VALUES 
+-- ('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 5, 'Araguari', 'MG');
 
-INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
-  VALUES 
-('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 6, 'São Paulo', 'SP');
+-- INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+--   VALUES 
+-- ('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 6, 'São Paulo', 'SP');
 
-INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
-  VALUES 
-('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 7, 'Campinas', 'SP');
+-- INSERT INTO users_data_db.addresses (rua, nro, bairro, user_id, cidade, uf )
+--   VALUES 
+-- ('Rua Lorem Ipsum', '123', 'Residencial Sênior VI', 7, 'Campinas', 'SP');
 
 -- 3rd - UPDATE no novo Id do backend
 

@@ -66,7 +66,7 @@ export default class UserModel implements SimpleModel<User> {
       obj.telefone ? obj.telefone : '(não cadastrado)', 
       obj.cnpj ? obj.cnpj : '(não cadastrado)', 
       obj.email ? obj.email : '(não cadastrado)', 
-      obj.role ? obj.role : 'Admin',
+      obj.role ? obj.role : 'admin',
       id]
     );
     const userIdResponse:ResultSetHeader = result[0] as ResultSetHeader;
