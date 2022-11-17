@@ -45,6 +45,9 @@ o software do produtor de etiquetas Colcacril.
   * `git@github.com:PauloSuriani/users-data.git`
   * Entre na pasta do repositório que você acabou de clonar:
     * `cd users-data`
+    * `cd users-data-frontend`
+    ou
+    * `cd users-data-backend`
 
 2. Instale as dependências e inicialize o projeto
   * Instale as dependências:
