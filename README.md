@@ -1,15 +1,21 @@
 # Cadastro de Clientes
 
-Olá, esta aplicação foi desenvolvida utilizando o banco de dados **MySQL**, BackEnd **Node JS + TypeScript**, FrontEnd em **React + TypeScript**, estilizada com **CSS** nativo. 
+Olá, seja muito bem vindo! Esta aplicação foi desenvolvida utilizando o banco de dados **MySQL**, BackEnd **Node JS + TypeScript**, FrontEnd em **React + TypeScript**, estilizada com **CSS** nativo. 
 Atualmente hospedada em **Railway** e **Netlify**, em produção para uma empresa local em Uberlândia - MG.
 
-Veja a página imagens:
+<details>
+  <summary>Veja imagens da página</summary>
+  
+### 
+
+![Screenshot from 2022-11-17 16-29-13](https://user-images.githubusercontent.com/88809041/202540676-278167d5-3561-4a92-989d-a31a61e013a6.png) ![Screenshot from 2022-11-11 13-08-02](https://user-images.githubusercontent.com/88809041/202540274-6c53e905-7f76-43e2-a2dd-c5bafaab8879.png)
 
 ![Screenshot from 2022-11-11 13-03-22](https://user-images.githubusercontent.com/88809041/202539016-1fac1296-4ef7-4348-a4e8-4138e7d0784b.png)
 
 ![Screenshot from 2022-11-14 10-10-46](https://user-images.githubusercontent.com/88809041/202539095-b34337cc-55de-4ba1-84a9-f668084e3f7c.png)
 
-![Screenshot from 2022-11-11 13-08-02](https://user-images.githubusercontent.com/88809041/202539101-d4e718de-b230-4999-a4eb-2f27b2153069.png)
+###  
+</details>
 
 # Contexto
 
@@ -48,6 +54,7 @@ o software do produtor de etiquetas Colcacril.
 
 
 > **Nota:** package.json é tecnologia **Node.js**, portanto é necessária instalação prévia do gerenciador de pacotes **npm**, acesse a [documentação oficial](https://www.npmjs.com/).
+
 > **Nota2:** O sistema gerenciador de banco de dados **MySQL** necessita de prévia instalação ou instância Dockerizada.
 
 ## Considerações
