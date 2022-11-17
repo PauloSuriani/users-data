@@ -1,6 +1,7 @@
 # Cadastro de Clientes
 
-Olá, seja muito bem vindo! Esta aplicação foi desenvolvida utilizando o banco de dados **MySQL**, BackEnd **Node JS + TypeScript**, FrontEnd em **React + TypeScript**, estilizada com **CSS** nativo. 
+Olá, bem vindo ao Readme. Aqui explico melhor sobre este projeto. 
+Esta aplicação foi desenvolvida utilizando o banco de dados **MySQL**, BackEnd **Node JS + TypeScript**, FrontEnd em **React + TypeScript**, estilizada com **CSS** nativo. 
 Atualmente hospedada em **Railway** e **Netlify**, em produção para uma empresa local em Uberlândia - MG.
 
 <details>
