@@ -32,19 +32,19 @@ export function CustommerCard(
             <svg className="svg-custommer-card"  viewBox="0 0 20 20">
               <path d="M12.075,10.812c1.358-0.853,2.242-2.507,2.242-4.037c0-2.181-1.795-4.618-4.198-4.618S5.921,4.594,5.921,6.775c0,1.53,0.884,3.185,2.242,4.037c-3.222,0.865-5.6,3.807-5.6,7.298c0,0.23,0.189,0.42,0.42,0.42h14.273c0.23,0,0.42-0.189,0.42-0.42C17.676,14.619,15.297,11.677,12.075,10.812 M6.761,6.775c0-2.162,1.773-3.778,3.358-3.778s3.359,1.616,3.359,3.778c0,2.162-1.774,3.778-3.359,3.778S6.761,8.937,6.761,6.775 M3.415,17.69c0.218-3.51,3.142-6.297,6.704-6.297c3.562,0,6.486,2.787,6.705,6.297H3.415z"></path>
             </svg>
-            <div style={{paddingRight: '10px', minWidth: '130px'}}>{props.contato}</div>
+            <div style={{fontFamily:'monospace', fontSize:'14px', paddingInline: '6px', minWidth: '130px'}}>{props.contato}</div>
           </div>
           <div className="div-svg-custommer-card-sm-combo">
             <svg className="svg-custommer-card" viewBox="0 0 20 20">
               <path d="M13.372,1.781H6.628c-0.696,0-1.265,0.569-1.265,1.265v13.91c0,0.695,0.569,1.265,1.265,1.265h6.744c0.695,0,1.265-0.569,1.265-1.265V3.045C14.637,2.35,14.067,1.781,13.372,1.781 M13.794,16.955c0,0.228-0.194,0.421-0.422,0.421H6.628c-0.228,0-0.421-0.193-0.421-0.421v-0.843h7.587V16.955z M13.794,15.269H6.207V4.731h7.587V15.269z M13.794,3.888H6.207V3.045c0-0.228,0.194-0.421,0.421-0.421h6.744c0.228,0,0.422,0.194,0.422,0.421V3.888z"></path>
             </svg>
-            <div style={{paddingRight: '10px'}}>{props.telefone}</div>
+            <div style={{fontFamily:'monospace', fontSize:'14px',paddingInline: '5px', minWidth: '130px'}}>{props.telefone}</div>
           </div>
           <div className="div-svg-custommer-card-sm-combo">
           <svg className="svg-custommer-card" viewBox="0 0 20 20">
             <path d="M4.317,16.411c-1.423-1.423-1.423-3.737,0-5.16l8.075-7.984c0.994-0.996,2.613-0.996,3.611,0.001C17,4.264,17,5.884,16.004,6.88l-8.075,7.984c-0.568,0.568-1.493,0.569-2.063-0.001c-0.569-0.569-0.569-1.495,0-2.064L9.93,8.828c0.145-0.141,0.376-0.139,0.517,0.005c0.141,0.144,0.139,0.375-0.006,0.516l-4.062,3.968c-0.282,0.282-0.282,0.745,0.003,1.03c0.285,0.284,0.747,0.284,1.032,0l8.074-7.985c0.711-0.71,0.711-1.868-0.002-2.579c-0.711-0.712-1.867-0.712-2.58,0l-8.074,7.984c-1.137,1.137-1.137,2.988,0.001,4.127c1.14,1.14,2.989,1.14,4.129,0l6.989-6.896c0.143-0.142,0.375-0.14,0.516,0.003c0.143,0.143,0.141,0.374-0.002,0.516l-6.988,6.895C8.054,17.836,5.743,17.836,4.317,16.411"></path>
           </svg>
-          <div style={{ textAlign: 'center'}}>{props.id}</div>
+          <div style={{fontFamily:'monospace', paddingLeft:'5px', fontSize:'14px', textAlign: 'center'}}>{props.id}</div>
           </div>
         </div>
 
@@ -55,16 +55,20 @@ export function CustommerCard(
               <path d="M17.592,8.936l-6.531-6.534c-0.593-0.631-0.751-0.245-0.751,0.056l0.002,2.999L5.427,9.075H2.491c-0.839,0-0.162,0.901-0.311,0.752l3.683,3.678l-3.081,3.108c-0.17,0.171-0.17,0.449,0,0.62c0.169,0.17,0.448,0.17,0.618,0l3.098-3.093l3.675,3.685c-0.099-0.099,0.773,0.474,0.773-0.296v-2.965l3.601-4.872l2.734-0.005C17.73,9.688,18.326,9.669,17.592,8.936 M3.534,9.904h1.906l4.659,4.66v1.906L3.534,9.904z M10.522,13.717L6.287,9.48l4.325-3.124l3.088,3.124L10.522,13.717z M14.335,8.845l-3.177-3.177V3.762l5.083,5.083H14.335z"></path>
             </svg>
             <div style={{display: 'flex', fontWeight: ''}}>
-              <div>{props.cidade}</div>
-              <span style={{paddingInline: '5px'}}>{` - `}</span>
-              <div style={{paddingRight: '10px'}}>{props.uf}</div>
+              <div style={{fontFamily:'monospace', paddingInline: '5px',fontSize:'14px'}}>{props.cidade}</div>
+              <span>{` - `}</span>
+              <div style={{fontFamily:'monospace', fontSize:'14px', paddingInline: '5px'}}>{props.uf}</div>
             </div>
           </div>
           <div className="div-svg-custommer-card-sm-combo">
               <svg className="svg-custommer-card"  viewBox="0 0 20 20">
                 <path d="M17.388,4.751H2.613c-0.213,0-0.389,0.175-0.389,0.389v9.72c0,0.216,0.175,0.389,0.389,0.389h14.775c0.214,0,0.389-0.173,0.389-0.389v-9.72C17.776,4.926,17.602,4.751,17.388,4.751 M16.448,5.53L10,11.984L3.552,5.53H16.448zM3.002,6.081l3.921,3.925l-3.921,3.925V6.081z M3.56,14.471l3.914-3.916l2.253,2.253c0.153,0.153,0.395,0.153,0.548,0l2.253-2.253l3.913,3.916H3.56z M16.999,13.931l-3.921-3.925l3.921-3.925V13.931z"></path>
               </svg>
-            <div>{props.email}</div>
+
+            <div style={{fontFamily:'monospace', fontSize:'14px',paddingInline: '5px'}}>{`${props.email === '(não cadastrado)'
+             ? '(não consta)' 
+             : props.email }`}
+           </div>
           </div>
         </div>
 
@@ -75,31 +79,44 @@ export function CustommerCard(
             <path d="M10,1.375c-3.17,0-5.75,2.548-5.75,5.682c0,6.685,5.259,11.276,5.483,11.469c0.152,0.132,0.382,0.132,0.534,0c0.224-0.193,5.481-4.784,5.483-11.469C15.75,3.923,13.171,1.375,10,1.375 M10,17.653c-1.064-1.024-4.929-5.127-4.929-10.596c0-2.68,2.212-4.861,4.929-4.861s4.929,2.181,4.929,4.861C14.927,12.518,11.063,16.627,10,17.653 M10,3.839c-1.815,0-3.286,1.47-3.286,3.286s1.47,3.286,3.286,3.286s3.286-1.47,3.286-3.286S11.815,3.839,10,3.839 M10,9.589c-1.359,0-2.464-1.105-2.464-2.464S8.641,4.661,10,4.661s2.464,1.105,2.464,2.464S11.359,9.589,10,9.589"></path>
           </svg>
          
-          <div style={{display: 'flex'}}>
-            <div>{props.rua}</div>
-            <span>{`, `}</span>
-            <div style={{paddingLeft: '5px'}}>{props.nro}</div>
-            <div style={{paddingLeft: '5px'}}>{props.bairro}</div>
+          <div style={{display: 'flex', alignItems: "center"}}>
+            <div style={{fontFamily:'monospace',fontSize:'13px', paddingLeft: '5px'}}>{props.rua}</div>
+
+
+
+            <div style={{fontFamily:'monospace',paddingLeft: '0px', fontSize:'13px'}}>{`${props.nro === 'S/N'
+             ? '' 
+             : ', ' }`}
+           </div>
+           <div style={{fontFamily:'monospace',paddingLeft: '0px', fontSize:'13px'}}>{`${props.nro === 'S/N'
+             ? '' 
+             : props.nro}`}
+           </div>
+            <div style={{fontFamily:'monospace',paddingLeft: '5px', fontSize:'13px'}}>{props.bairro}</div>
           </div>
         </div>
       </div>
 
+
+
+
+    
       {/* PARTE CADASTRAL */}
       <div className='lower-card'>
         
         <div>
           <div>
-            <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Razão Social</label></b>
-            <div style={{minWidth: '160px'}}>{props.razao_social}</div>
+            <b><label style={{fontFamily:'monospace',fontSize:'14px',paddingRight: '5px'}}>Razão Social</label></b>
+            <div style={{fontFamily:'monospace',minWidth: '160px', fontSize: '14px'}}>{props.razao_social}</div>
           </div>
           <div style={{display: 'flex', justifyContent: 'flex-start'}}>
             <div>
-              <b><label style={{fontSize:'15px',paddingRight: '5px'}}>Nome Fantasia</label></b>
-              <div style={{minWidth: '160px'}}>{props.nome_fantasia}</div>
+              <b><label style={{fontFamily:'monospace',fontSize:'14px',paddingRight: '5px'}}>Nome Fantasia</label></b>
+              <div style={{fontFamily:'monospace',minWidth: '160px', fontSize: '14px'}}>{props.nome_fantasia}</div>
             </div>
-            <div style={{paddingLeft: '12px'}}>
-              <b><label style={{fontSize:'15px',paddingRight: '5px'}}>CNPJ</label></b>
-              <div>{props.cnpj}</div>
+            <div style={{fontFamily:'monospace',paddingLeft: '12px'}}>
+              <b><label style={{fontFamily:'monospace',fontSize:'14px',paddingRight: '5px'}}>CNPJ</label></b>
+              <div style={{fontFamily:'monospace',fontSize: '14px'}}>{props.cnpj}</div>
             </div>
           </div>
         </div>
