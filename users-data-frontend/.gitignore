@@ -29,3 +29,6 @@ src/index.css.exemple
 src/App.css.exemple
 src/components/CustommerCardToPrint copy.tsx
 
+.env
+serverurl.ts
+
