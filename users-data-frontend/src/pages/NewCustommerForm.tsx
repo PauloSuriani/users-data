@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import  '/src/pages/CustommerForm.css';
+import  { api_url } from '../../serverurl';
 
 type CustommerObject = {
   contato?: string;
@@ -25,6 +25,7 @@ export function NewCustommerForm() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
+  const BASE_URL = api_url();
 
   useEffect(() => {
     const storage = localStorage.getItem('user');
@@ -36,7 +37,7 @@ export function NewCustommerForm() {
       const token:string = JSON.parse(storage).token;
       console.log('token em new custommer: ', token);
 
-      fetch('http://localhost:3000/login/validate', {
+      fetch(`${BASE_URL}/login/validate`, {
         method: "GET",
         headers: {  'Authorization': token,'Content-Type': 'application/json', 'Acept': '*/*' }
       })
@@ -56,7 +57,7 @@ export function NewCustommerForm() {
       custommer['seller_id'] = JSON.parse(localStorage.getItem('user') as string).id;
       setNewCustommer(custommer);
       console.log('prefetch newcustommer', newCustommer);
-      fetch('http://localhost:3000/user', {
+      fetch(`${BASE_URL}/user`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
         body: JSON.stringify(newCustommer)
@@ -114,23 +115,23 @@ export function NewCustommerForm() {
           <div className="table-custommer-form">
             <h2 style={{textAlign: 'left', paddingTop: '0px'}}>Dados Pessoais</h2>
             <label className="form-label">Razão Social</label>
-            <input className="form-input" size={36} type="text" id="razao_social" onChange={evt => updateInputValue(evt)}/> 
+            <input className="form-input form-input-resp" size={34} type="text" id="razao_social" onChange={evt => updateInputValue(evt)}/> 
             <label className="form-label">Nome Fantasia</label>
-            <input size={36} className="form-input" type="text" id="nome_fantasia" onChange={evt => updateInputValue(evt)}/> 
+            <input size={34} className="form-input" type="text" id="nome_fantasia" onChange={evt => updateInputValue(evt)}/> 
             
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <div className="contact-cnpj-div">
               <div style={{paddingLeft: '0px'}}>
                 <label className="form-label">CNPJ</label>
-                <input size={14} className="form-input" type="text" id="cnpj" onChange={evt => updateInputValue(evt)}/> 
+                <input size={16} className="form-input" type="text" id="cnpj" onChange={evt => updateInputValue(evt)}/> 
               </div>
               <div>
                 <label className="form-label">Contatos</label>
-                <input size={17} className="form-input" type="text" id="contato" onChange={evt => updateInputValue(evt)}/> 
+                <input size={14} className="form-input" type="text" id="contato" onChange={evt => updateInputValue(evt)}/> 
               </div>
             </div>
 
             <label className="form-label">Telefones</label>
-                <input size={24} className="form-input" type="text" id="telefone" onChange={evt => updateInputValue(evt)}/> 
+                <input size={30} className="form-input" type="text" id="telefone" onChange={evt => updateInputValue(evt)}/> 
 
           </div>
 
@@ -150,21 +151,21 @@ export function NewCustommerForm() {
             </div>
 
             <label className="form-label">Logradouro</label>
-            <input size={28} className="form-input" type="text" id="rua" onChange={evt => updateInputValue(evt)}/> 
+            <input size={32} className="form-input" type="text" id="rua" onChange={evt => updateInputValue(evt)}/> 
           
             <div style={{display: 'flex'}}>
               <div>
                 <label className="form-label">Nro.</label>
                 <input size={5} className="form-input" type="text" id="nro" onChange={evt => updateInputValue(evt)}/> 
               </div>
-              <div style={{paddingLeft: '17px'}}>
+              <div style={{paddingLeft: '13px'}}>
                 <label className="form-label">Bairro</label>
-                <input size={18} className="form-input" type="text" id="bairro" onChange={evt => updateInputValue(evt)}/> 
+                <input size={23} className="form-input" type="text" id="bairro" onChange={evt => updateInputValue(evt)}/> 
               </div>
             </div>
 
             <label className="form-label">Email</label>
-            <input size={36} className="form-input" type="text" id="email" onChange={evt => updateInputValue(evt)}/> 
+            <input size={32} className="form-input" type="text" id="email" onChange={evt => updateInputValue(evt)}/> 
           
           </div>
 
@@ -186,6 +187,6 @@ export function NewCustommerForm() {
     
     </div>
     : navigate('/login')
-  )
+  ) as any
 }
     

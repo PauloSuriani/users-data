@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { CustommerCard } from "../components/CustommerCard";
 import { useNavigate } from 'react-router-dom';
 import { CustommerCardToPrint } from "../components/CustommerCardToPrint";
+import { api_url } from "../../serverurl";
 
 
 export function MainPage() {
@@ -18,6 +19,10 @@ export function MainPage() {
   
       
   const navigate = useNavigate();
+  // const require:NodeRequire ;
+
+  // const config = require('./serverurl.json');
+  const BASE_URL = api_url();
 
   useEffect(() => {
     const storage = localStorage.getItem('user');
@@ -31,7 +36,7 @@ export function MainPage() {
       const token:string = JSON.parse(storage).token;
       console.log('tokem: ', token);
 
-      fetch('http://localhost:3000/login/validate', {
+      fetch(`${BASE_URL}/login/validate`, {
         method: "GET",
         headers: {  'Authorization': token,'Content-Type': 'application/json', 'Acept': '*/*' }
       })
@@ -43,10 +48,8 @@ export function MainPage() {
   }, [navigate]);
 
   function fillCustommers(sellerId:number) {
-    console.log('isAuthenticated: ', isAuthenticated);
-
     // setPrintScreen(false);
-    const fetchUrl:string = `http://localhost:3000/custommer/${sellerId}`;
+    const fetchUrl:string = `${BASE_URL}/custommer/${sellerId}`;
     fetch(fetchUrl)
     .then(response => response.json())
     .then(res => {setAllCustommers(res), setFilteredCustommers(res);})
@@ -56,6 +59,7 @@ export function MainPage() {
   };
 
   function handleToPrintQueue(custommerId:number) {
+
     if (toPrintQueue.length === 0) {
       const userId:Array<number> = [custommerId];
       setToPrintQueue(userId);
@@ -69,14 +73,17 @@ export function MainPage() {
           setToPrintQueue(newArray);
       }
     }
+
   };
 
   const handleOnChange = (position:number) => {
+
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );
 
     setCheckedState(updatedCheckedState);
+
   }
 
   function handlePrint() {
@@ -103,7 +110,9 @@ export function MainPage() {
         filteredCus.push(custommer);
       }
     })
+
     setFilteredCustommers(filteredCus);
+
   }
 
   function generateExcelFile() {
@@ -122,7 +131,7 @@ export function MainPage() {
   return (
     printScreen ?
     <div>
-        <h1>Clique na impressora para baixar o arquivo</h1>
+        <h1>Gerar arquivo</h1>
       <div className="div-svg-impressao">
         <div>
           <div className="div-svg-btn">
@@ -160,16 +169,15 @@ export function MainPage() {
       
     </div>
     : isAuthenticated ?
-    <div style={{backgroundColor: 'white',fontFamily: 'sans-serif'}} className="MainPage">
+    <div style={{backgroundColor: 'white',fontFamily: 'monospace'}} className="MainPage">
 
-    
-    <div className="div-svg-btn-fixed">
+      <div className="div-svg-btn-fixed">
 
         <h2>{`${toPrintQueue.length === 0 
           ? '' 
           : toPrintQueue.length === 1 
-          ? `${toPrintQueue.length} registro selecionado`
-          :`${toPrintQueue.length} registros selecionados`}`}
+          ? `${toPrintQueue.length} selecionado`
+          :`${toPrintQueue.length} selecionados`}`}
         </h2>
         
         <svg cursor={'pointer'} onClick={handlePrint} className="svg-icon svg-nav-style" viewBox="0 0 20 20">
@@ -182,8 +190,14 @@ export function MainPage() {
 
       </div>
 
-      <div style={{paddingTop: '55px'}}>
-        <h1>{`Selecione para Impressão`}</h1>
+      <div className="div-svg-custommer-card-sm-combo-h1">
+        
+        <h1>
+          <svg className="svg-nav-style-h1" onClick={() => {localStorage.removeItem('user'); location.reload();}} viewBox="0 0 20 20">
+            <path d="M3.24,7.51c-0.146,0.142-0.146,0.381,0,0.523l5.199,5.193c0.234,0.238,0.633,0.064,0.633-0.262v-2.634c0.105-0.007,0.212-0.011,0.321-0.011c2.373,0,4.302,1.91,4.302,4.258c0,0.957-0.33,1.809-1.008,2.602c-0.259,0.307,0.084,0.762,0.451,0.572c2.336-1.195,3.73-3.408,3.73-5.924c0-3.741-3.103-6.783-6.916-6.783c-0.307,0-0.615,0.028-0.881,0.063V2.575c0-0.327-0.398-0.5-0.633-0.261L3.24,7.51 M4.027,7.771l4.301-4.3v2.073c0,0.232,0.21,0.409,0.441,0.366c0.298-0.056,0.746-0.123,1.184-0.123c3.402,0,6.172,2.709,6.172,6.041c0,1.695-0.718,3.24-1.979,4.352c0.193-0.51,0.293-1.045,0.293-1.602c0-2.76-2.266-5-5.046-5c-0.256,0-0.528,0.018-0.747,0.05C8.465,9.653,8.328,9.81,8.328,9.995v2.074L4.027,7.771z"></path>
+          </svg>
+          {`Arquivo`}
+        </h1>
       </div>
 
                                   {/* SEARCH BAR  */}
@@ -196,7 +210,7 @@ export function MainPage() {
           <h2>{`${filteredCustommers.length === 0 
             ? 'Nenhum registro encontrado' 
             : filteredCustommers.length === allCustommers.length 
-              ? `Total de ${filteredCustommers.length} registros, filtrar por...`
+              ? `Total de ${filteredCustommers.length} registros`
               :`Exibindo ${filteredCustommers.length} registros`}`}
           </h2>
         </div>
@@ -243,6 +257,6 @@ export function MainPage() {
 
     </div>
     :  navigate('/login')
-  ) 
+  ) as any
 }
     

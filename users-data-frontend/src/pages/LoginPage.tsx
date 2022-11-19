@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import  '/src/pages/CustommerForm.css';
+import { api_url } from '../../serverurl';
+
 
 type LoginObject = {
   email?: string;
@@ -12,6 +14,9 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [logged, setLogin] = useState(false);
+
+// dotenv.config();
+
   
   const navigate = useNavigate();
 
@@ -22,15 +27,15 @@ export function LoginPage() {
 
   //   if (JSON.parse(user).token) return setLogin(true);
   // }, [logged, setLogin]);
+  const BASE_URL = api_url();
 
   function handleAccessBtnClick() {
     const loginObj:LoginObject = {
       email,
       password,
     }
-
-    console.log('handleAccessBtnClick', loginObj);
-    fetch('http://localhost:3000/login', {
+    // console.log('handleAccessBtnClick', loginObj.email, `${BASE_URL}/login`);
+    fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
       body: JSON.stringify(loginObj)
@@ -38,7 +43,6 @@ export function LoginPage() {
     .then(response => response.json())
     .then(res => {
       if(res.status == 200){
-        console.log('res.status == 200', res);
         const { token, user } = res.message;
         localStorage.setItem('user', JSON.stringify({ token, ...user }));
         navigate('/');
@@ -50,6 +54,7 @@ export function LoginPage() {
   }
 
   function updateInputValue(event:any) {
+    const key:string = event.key;
     const value:string = event.target.value;
     const field:string = event.target.id;
     
@@ -57,6 +62,10 @@ export function LoginPage() {
       setEmail(value);
     } else if (field === 'password') {
       setPassword(value);
+    }
+
+    if (key === 'Enter') {
+      handleAccessBtnClick();
     }
   }
   
@@ -78,16 +87,21 @@ export function LoginPage() {
               <div className="table-login-form">
                 <div>
                   <h3 className="typewriter-tex2">Olá, visitante!</h3>
-                  <h3 className="typewriter-text">Informe os seus dados abaixo</h3>
+                  <h3 className="typewriter-text">{
+                    message === '' 
+                    ? `Informe os seus dados abaixo`
+                    : message}
+                  </h3>
+                  {/* <h3 className="typewriter-text">Informe os seus dados abaixo</h3> */}
                 </div>
                 <svg  className="typewriter-svg" >
                   <image className="tag-image-svg" href="/typewriter-svgrepo-com.svg" />
                 </svg>
               </div>
-              <label className="form-label">Email</label>
-              <input className="form-input" size={26} type="text" value={email} id="email" onChange={ evt => updateInputValue(evt) }/> 
+              <label className="form-label">E-mail</label>
+              <input className="form-input-login" size={26} onKeyDown={evt => updateInputValue(evt)} type="text" value={email} id="email" onChange={ evt => updateInputValue(evt) }/> 
               <label className="form-label">Senha</label>
-              <input size={26} className="form-input" type="password" value={password} id="password"  onChange={ evt => updateInputValue(evt) }/> 
+              <input size={26} onKeyDown={evt => updateInputValue(evt)} className="form-input-login" type="password" value={password} id="password"  onChange={ evt => updateInputValue(evt) }/> 
             </div>              
           </div>
             
