@@ -2,7 +2,8 @@
 
 Aplicação que desenvolvi para empresa no ramo de venda de produtos eletrônicos. O objetivo é cadastrar os clientes e disponibilizar a possibilidade de escolher um grupo e marcar para a impressão em etiquetas adesivas. 
 
-Este software encontra-se atualmente em produção, hospedado na plataforma Railway. 
+Este software encontra-se atualmente em produção, o Back End + Banco de Dados hospedados na plataforma Railway. E o Front End, em Netlify.
+
 
 ## Veja como ficou
 
@@ -43,7 +44,7 @@ ou/e
 
 Para iniciar a aplicação, execute o seguinte comando no seu terminal:
 
-$ npm start
+`$ npm start`
 
 
 A partir daí, você poderá acessar o Backend em seu navegador em `http://localhost:3000/`.
@@ -58,9 +59,12 @@ A partir daí, você poderá acessar o Backend em seu navegador em `http://local
 
 Você poderá ser acessar o Frontend em seu navegador em `http://localhost:5173/`.
 
-## Dependências
+## Dependências/Frameworks
 
 - Node.js
 - TypeScript
 - React
+- Vite
+- React.js
+- React Router DOM
 
