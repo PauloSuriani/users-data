@@ -11,10 +11,10 @@ Este software encontra-se atualmente em produção, hospedado na plataforma Rail
     <strong>Capturas de tela</strong>
   </summary>
   
-![aplicação exibida para mobile](https://drive.google.com/file/d/1eoUbYQXoQF-8xwKg21AfTOqD-l7-2ToM/)
+![aplicação exibida para mobile](https://github.com/PauloSuriani/users-data/blob/main/Screenshot%20from%202022-11-11%2013-03-22.png?raw=true)
 
 
-https://drive.google.com/file/d/1-dkY8ATe6jvC8x3lxSPXpXfivkGI2i8n/
+https://drive.google.com/file/d/1-dkY8ATe6jvC8x3lxSPXpXfivkGI2i8n/raw=true
 https://drive.google.com/file/d/11VSBW8lhWRPySM8rdkKiy8I27hQzpGc_/
 
 </details>
