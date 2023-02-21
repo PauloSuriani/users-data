@@ -41,13 +41,13 @@ export function MainPage() {
         headers: { 'Authorization': token, 'Content-Type': 'application/json', 'Acept': '*/*' }
       })
         .then(response => response.json())
-        .then(() => { setIsAuthenticated(true); fillCustommers(JSON.parse(storage).id); })
+        .then(() => { setIsAuthenticated(true); fillCustommersByManager(JSON.parse(storage).id); })
         .catch(() => navigate('/login'));
     };
 
   }, [navigate]);
 
-  function fillCustommers(sellerId: number) {
+  function fillCustommersByManager(sellerId: number) {
     // setPrintScreen(false);
     const fetchUrl: string = `${BASE_URL}/custommer/${sellerId}`;
     fetch(fetchUrl)
@@ -103,15 +103,15 @@ export function MainPage() {
   function updateInputValue(event: any) {
     const value: any = event.target.value;
     const field: string = event.target.id;
-    const filteredCus: [] = [];
+    const filteredCustommerAux: [] = [];
     allCustommers.map(custommer => {
-      const a: string = custommer[field] + '';
-      if (a?.toLowerCase().includes(value.toLowerCase())) {
-        filteredCus.push(custommer);
+      const searchedTerm: string = custommer[field];
+      if (searchedTerm?.toLowerCase().includes(value.toLowerCase())) {
+        filteredCustommerAux.push(custommer);
       }
     })
 
-    setFilteredCustommers(filteredCus);
+    setFilteredCustommers(filteredCustommerAux);
 
   }
 
@@ -214,8 +214,8 @@ export function MainPage() {
               <h2>{`${filteredCustommers.length === 0
                 ? 'Nenhum registro encontrado'
                 : filteredCustommers.length === allCustommers.length
-                  ? `Total de ${filteredCustommers.length} registros`
-                  : `Exibindo ${filteredCustommers.length} registros`}`}
+                  ? `Total de ${filteredCustommers.length} clientes`
+                  : `Exibindo ${filteredCustommers.length} clientes`}`}
               </h2>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
