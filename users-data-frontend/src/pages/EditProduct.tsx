@@ -68,7 +68,7 @@ export function EditProduct() {
 		const productId = productIdAux;
 		setProductId(productId);
 		localStorage.setItem('product', JSON.stringify({ productId }));
-		console.log('url extraída, com productIdAux: ', `${BASE_URL}/user/:${productIdAux}`);
+		console.log('url extraída, com productIdAux: ', `${BASE_URL}/product/:${productIdAux}`);
 
 		const fetchUrl = `${BASE_URL}/product/:${productIdAux}`;
 		fetch(fetchUrl)
