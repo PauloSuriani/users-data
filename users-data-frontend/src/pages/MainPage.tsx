@@ -90,7 +90,7 @@ export function MainPage() {
     // implementar modal para confirmação:
     // const printCustommers = allCustommers.filter((custommer) => toPrintQueue.includes(custommer['id']));
     const printCustommers: [] = [];
-    filteredCustommers.map((custommer) => {
+    allCustommers.map((custommer) => {
       if (toPrintQueue.includes(custommer['id'])) {
         printCustommers.push(custommer);
         printCustommers.push(custommer);
@@ -110,9 +110,7 @@ export function MainPage() {
         filteredCustommerAux.push(custommer);
       }
     })
-
     setFilteredCustommers(filteredCustommerAux);
-
   }
 
   function generateExcelFile() {
