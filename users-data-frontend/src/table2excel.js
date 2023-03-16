@@ -2549,10 +2549,10 @@
 	  var cellObject = null;
 	  var text = cell.textContent.trim() || '';
 
-	  // custom handlers
-	  typeHandlers.some(function (typeHandler) {
-	    return cellObject = typeHandler(cell, text);
-	  });
+	  // custom handlers -- commented for excel date fix bugs
+	  // typeHandlers.some(function (typeHandler) {
+	  //   return cellObject = typeHandler(cell, text);
+	  // });
 
 	  // default handler
 	  if (!cellObject) cellObject = { t: 's', v: text };
@@ -2644,7 +2644,6 @@
 	 */
 	exports.default = function (cell) {
 	  var list = cell.querySelector('ul, ol');
-
 	  if (list) {
 	    var _ret = function () {
 	      var string = '';
@@ -2687,7 +2686,6 @@
 	 */
 	exports.default = function (cell, text) {
 	  if (text.length > 0 && !isNaN(text)) return { t: 'n', v: text };
-
 	  return null;
 	};
 
@@ -2702,7 +2700,7 @@
 	});
 
 	/**
-	 * Generates a cell object for a date cell.
+	 * Generates a cell object for a date cell. -- commented for excel date fix bugs
 	 *
 	 * @param {HTMLTableCellElement} cell - The cell.
 	 * @param {string} text - The text of the cell.
@@ -2710,22 +2708,22 @@
 	 * @returns {object} - A cell object of the cell or `null` if the cell doesn't
 	 * fulfill the criteria of a date cell.
 	 */
-	exports.default = function (cell, text) {
-	  function getValue(date) {
-	    var offset = new Date().getTimezoneOffset() * 60000;
-	    return new Date(date - offset).toISOString();
-	  }
+	// exports.default = function (cell, text) {
+	//   function getValue(date) {
+	//     var offset = new Date().getTimezoneOffset() * 60000;
+	//     return new Date(date - offset).toISOString();
+	//   }
+	// 	console.log('debug 02: ', cell, text);
+	//   var timestamp = cell.getAttribute('data-timestamp');
+	//   if (timestamp) {
+	//     return { t: 'd', v: getValue(new Date(parseInt(timestamp, 10))) };
+	//   }
 
-	  var timestamp = cell.getAttribute('data-timestamp');
-	  if (timestamp) {
-	    return { t: 'd', v: getValue(new Date(parseInt(timestamp, 10))) };
-	  }
+	//   var date = new Date(text);
+	//   if (!isNaN(date)) return { t: 'd', v: getValue(date) };
 
-	  var date = new Date(text);
-	  if (!isNaN(date)) return { t: 'd', v: getValue(date) };
-
-	  return null;
-	};
+	//   return null;
+	// };
 
 /***/ },
 /* 103 */
