@@ -10,6 +10,7 @@ import { ProductsPage } from "../pages/ProductsPage"
 import { NewCustommerForm } from '../pages/NewCustommerForm';
 import { NewProduct } from '../pages/NewProductForm';
 import { EditProduct } from '../pages/EditProduct';
+import { RoutePage } from '../pages/RoutePage';
 
 export function AppRouter() {
 return (
@@ -22,6 +23,7 @@ return (
       <Route path="/newproduct" element={<NewProduct/>} />
       <Route path="/custommer/edit/:id" element={<EditCustommer/>} />
       <Route path="/newcustommer" element={<NewCustommerForm/>} />
+      <Route path="/rotas" element={<RoutePage/>} />
     </Routes>
   </Router>
 );} 
