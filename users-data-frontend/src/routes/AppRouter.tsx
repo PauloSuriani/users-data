@@ -11,6 +11,7 @@ import { NewCustommerForm } from '../pages/NewCustommerForm';
 import { NewProduct } from '../pages/NewProductForm';
 import { EditProduct } from '../pages/EditProduct';
 import { RoutePage } from '../pages/RoutePage';
+import { NewRoutePage } from '../pages/NewRoutePage';
 
 export function AppRouter() {
 return (
@@ -24,6 +25,7 @@ return (
       <Route path="/custommer/edit/:id" element={<EditCustommer/>} />
       <Route path="/newcustommer" element={<NewCustommerForm/>} />
       <Route path="/rotas" element={<RoutePage/>} />
+      <Route path="/rotas/nova" element={<NewRoutePage/>} />
     </Routes>
   </Router>
 );} 
