@@ -105,7 +105,8 @@ export function MainPage() {
     const field: string = event.target.id;
     const filteredCustommerAux: [] = [];
     allCustommers.map(custommer => {
-      const searchedTerm: string = custommer[field];
+      // const searchedTerm: string = custommer[field];
+      const searchedTerm: string = `${custommer[field]}`
       if (searchedTerm?.toLowerCase().includes(value.toLowerCase())) {
         filteredCustommerAux.push(custommer);
       }
