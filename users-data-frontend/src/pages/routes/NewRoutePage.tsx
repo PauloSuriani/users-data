@@ -1,30 +1,16 @@
 import { useState, useEffect } from "react";
-import { ShortCustommerCard } from "../components/ShortCustomCard";
+import { ShortCustommerCard } from "../../components/ShortCustomCard";
 import { useNavigate } from 'react-router-dom';
-import { CustommerCardToPrint } from "../components/CustommerCardToPrint";
-import { api_url } from "../../serverurl";
+import { CustommerCardToPrint } from "../../components/CustommerCardToPrint";
+import { api_url } from "../../../serverurl";
 
-type Route = {
-  "idSeller"?: number,
-  "routeId"?: number,
-  "contato"?: string,
-  "nomeRota"?: string,
-  "dataInicial"?: string,
-  "dataFinal"?: string,
-  "valorTotal"?: number,
-  "fieldSellerId"?: number,
-  "clients"?: Number[]
-}
-
-export function RecycleRoutePage() {
+export function NewRoutePage() {
+  const [newRoute, setNewRoute] = useState({});
   const [allCustommers, setAllCustommers] = useState([]);
   const [fieldSellers, setFieldSellers] = useState(Array<DropDownOption>);
   const [selectedOption, setSelectedOption] = useState("");
   const [filteredCustommers, setFilteredCustommers] = useState([]);
-  // const [toPrintQueue, setToPrintQueue] = useState([]);
   const [toPrintQueue, setToPrintQueue] = useState(Array<Number>);
-  // const [toPrintQueue, setToPrintQueue] = useState([2, 5]);
-  const [editedRoute, setEditedRoute] = useState<Route>();
   const [toPrintCustommers, setToPrintCustommers] = useState([]);
   const [printScreen, setPrintScreen] = useState(Boolean);
   const [checkedState, setCheckedState] = useState(
@@ -55,70 +41,37 @@ export function RecycleRoutePage() {
         headers: { 'Authorization': token, 'Content-Type': 'application/json', 'Acept': '*/*' }
       })
         .then(response => response.json())
-        .then(() => { setIsAuthenticated(true); loadData(JSON.parse(storage).id); })
+        .then(() => { setIsAuthenticated(true); fillDataBySeller(JSON.parse(storage).id); })
         .catch(() => navigate('/login'));
     };
 
   }, [navigate]);
 
-  function loadData(sellerId: number) {
+  function fillDataBySeller(sellerId: number) {
     // setPrintScreen(false);
-    const routeId = getIdByParams();
+    setNewRoute({
+      ...newRoute,
+      'idSeller': sellerId
+    });
 
-    const fetchUrlCustommers: string = `${BASE_URL}/custommer/${sellerId}`;
+    const fetchUrlCustommers: string = `${BASE_URL}/alldependents/${sellerId}`;
     fetch(fetchUrlCustommers)
       .then(response => response.json())
-      .then(res => { setAllCustommers(res), setFilteredCustommers(res); })
-      .catch(err => console.log(err));
-
-    const fetchUrlFieldSellers: string = `${BASE_URL}/fieldseller/${sellerId}`;
-    fetch(fetchUrlFieldSellers)
-      .then(response => response.json())
-      .then(res => { generateDropDownOptions(res) })
-      .catch(err => console.log(err));
-
-    const fetchUrlSelectedCustommersId: string = `${BASE_URL}/routedata/${routeId}`;
-    fetch(fetchUrlSelectedCustommersId)
-      .then(response => response.json())
-      .then(res => { setToPrintQueue(res['selectedCustommers']), preSetEditedRoute(res), setSelectedOption(res['route'].fieldSellerId) })
+      .then(res => { preSetCustommers(res); })
       .catch(err => console.log(err));
   };
 
-  function preSetEditedRoute(res: any) {
-    setEditedRoute({
-      ...res['route'],
-      ['dataInicial']: res['route'].dataInicial?.toString().split('T')[0],
-      ['dataFinal']: res['route'].dataFinal?.toString().split('T')[0]
-    })
-  }
-
-
-  function getIdByParams() {
-    const len: number = window.location.href.length;
-    const url: string = window.location.href;
-    let idAux: string = '';
-    let sliced: string = url.slice(len - 1);
-    idAux = idAux + sliced;
-    sliced = url.slice(len - 2);
-    if (!sliced.includes('/')) {
-      idAux = sliced;
-    }
-    sliced = url.slice(len - 3);
-    if (!sliced.includes('/')) {
-      idAux = sliced;
-    }
-    sliced = url.slice(len - 4);
-    if (!sliced.includes('/')) {
-      idAux = sliced;
-    }
-    return idAux;
+  function preSetCustommers(res: any) {
+    setAllCustommers(res['custommers']);
+    setFilteredCustommers(res['custommers']);
+    generateDropDownOptions(res['fieldSellers']);
   }
 
   function generateDropDownOptions(rawFieldSellers: []) {
     const dropDownAux: DropDownOption[] = [];
     rawFieldSellers.map(fieldSeller => {
       dropDownAux.push({ "id": fieldSeller['id'], "nome": fieldSeller['contato'] });
-    });
+    })
     setFieldSellers(dropDownAux);
   }
 
@@ -128,12 +81,12 @@ export function RecycleRoutePage() {
     if (toPrintQueue.length === 0) {
       const userId: Array<number> = [custommerId];
       setToPrintQueue(userId);
-      setEditedRoute({
-        ...editedRoute,
+      setNewRoute({
+        ...newRoute,
         'clients': userId
       });
     } else {
-      let newArray = toPrintQueue;
+      let newArray: Array<Number> = toPrintQueue;
       if (toPrintQueue.includes(custommerId)) {
         newArray = toPrintQueue.filter((elem) => elem !== custommerId);
         setToPrintQueue(newArray);
@@ -141,8 +94,8 @@ export function RecycleRoutePage() {
         newArray.push(custommerId);
         setToPrintQueue(newArray);
       }
-      setEditedRoute({
-        ...editedRoute,
+      setNewRoute({
+        ...newRoute,
         'clients': newArray
       });
     }
@@ -202,80 +155,63 @@ export function RecycleRoutePage() {
 
   const handleDropDownChange = (event: any) => {
     setSelectedOption(event.target.value);
-    // console.log('v selec: ', typeof event.target.value);
-    setEditedRoute({
-      ...editedRoute,
-      'fieldSellerId': event.target.value
+    setNewRoute({
+      ...newRoute,
+      'idFieldSeller': event.target.value
     })
   }
 
-  // type Route = {
-  //   "id_seller"?: String,
-  //   "id_field_seller"?: String,
-  //   "nome_rota"?: String,
-  //   "data_inicial"?: Date,
-  //   "clients"?: number[]
-  // }
+  type Route = {
+    "idSeller"?: String,
+    "idFieldSeller"?: String,
+    "nomeRota"?: String,
+    "dataInicial"?: Date,
+    "clients"?: number[]
+  }
 
   function updateStateWithInputValue(event: any) {
-    let routeAux: Route = editedRoute as Route;
+    let routeAux: Route = newRoute;
     const value: any = event.target.value;
     const field: string = event.target.id;
     if ('nomeRota' == field || 'dataInicial' == field) {
       routeAux[field] = value;
     }
-    setEditedRoute(routeAux);
+    setNewRoute(routeAux);
   }
 
   function handleAddBtnClick() {
-    const storage = localStorage.getItem('user');
-    if (isAuthenticated && storage) {
-    //   const url = `${BASE_URL}/route/${editedRoute?.routeId}`;
+    if (isAuthenticated) {
+      // let insertNewRouteAux = {
+      //   "id_field_seller": String,
+      //   "nome_rota": String,
+      //   "data_inicial": Date
+      // };
+      // insere o id de quem está cadastrando
+      // insertNewRouteAux['id_seller'] = JSON.parse(localStorage.getItem('user') as string).id;
+      // setNewProduct(insertNewProductAux);
 
-    //   console.log('prefetch handleAddBtnClick, estado editedRoute', editedRoute);
-
-    //   fetch(url, {
-    //     method: "PUT",
-    //     headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
-    //     body: JSON.stringify(editedRoute)
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //       if (res.status == 200) {
-    //         // setConfirmScreen(true);
-    //         setTimeout(() => {
-
-    //           navigate('/rotas');
-    //         }, 2000);
-    //       }
-    //     })
-    //     .catch(err => console.log(err));
-    // }
+      // setNewRoute({
+      //   ...newRoute,
+      //   'id_seller': JSON.parse(localStorage.getItem('user') as string).id,
+      //   'clients': toPrintQueue
+      // })
 
 
-    const newRoute = {
-      "id_seller": JSON.parse(storage).id,
-      "id_field_seller": editedRoute?.fieldSellerId,
-      "nome_rota": editedRoute?.nomeRota,
-      "data_inicial": editedRoute?.dataInicial,
-      "clients": toPrintQueue
-    }
-    console.log('prefetch handleAddBtnClick, estado newRoute', newRoute, editedRoute);
+      console.log('prefetch handleAddBtnClick, estado newRoute', newRoute);
 
-
-    fetch(`${BASE_URL}/route`, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
-      body: JSON.stringify(newRoute)
-    })
-      .then(res => {
-        console.log(res);
-        if (res.status == 201) {
-          // setConfirmScreen(true);
-        }
+      fetch(`${BASE_URL}/route`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
+        body: JSON.stringify(newRoute)
       })
-      .catch(err => console.log(err));
-  }
+        .then(res => {
+          console.log(res);
+          if (res.status == 201) {
+            // setConfirmScreen(true);
+          }
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   return (
@@ -330,23 +266,26 @@ export function RecycleRoutePage() {
                 : `${toPrintQueue.length} selecionados`}`}
             </h2>
 
-            {/* <svg onClick={handleAddBtnClick} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="svg-nav-style">
+            <svg onClick={handleAddBtnClick} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="svg-nav-style">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-            </svg> */}
+            </svg>
 
-            <svg className="svg-nav-style" onClick={handleAddBtnClick} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
+
+            <svg onClick={() => { navigate('/') }} xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 svg-nav-style" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+
+            <svg onClick={() => { navigate('/products') }} style={{ marginRight: '11px' }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="svg-nav-style w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
             </svg>
 
           </div>
 
           <div className="div-svg-custommer-card-sm-combo-h1">
             <h1>
-              <svg className="svg-nav-style-h1" onClick={() => { navigate('/rotas') }} cursor={'pointer'} viewBox="0 0 20 20">
+              <svg className="svg-nav-style-h1" onClick={() => { navigate('/rotas') }} viewBox="0 0 20 20">
                 <path d="M3.24,7.51c-0.146,0.142-0.146,0.381,0,0.523l5.199,5.193c0.234,0.238,0.633,0.064,0.633-0.262v-2.634c0.105-0.007,0.212-0.011,0.321-0.011c2.373,0,4.302,1.91,4.302,4.258c0,0.957-0.33,1.809-1.008,2.602c-0.259,0.307,0.084,0.762,0.451,0.572c2.336-1.195,3.73-3.408,3.73-5.924c0-3.741-3.103-6.783-6.916-6.783c-0.307,0-0.615,0.028-0.881,0.063V2.575c0-0.327-0.398-0.5-0.633-0.261L3.24,7.51 M4.027,7.771l4.301-4.3v2.073c0,0.232,0.21,0.409,0.441,0.366c0.298-0.056,0.746-0.123,1.184-0.123c3.402,0,6.172,2.709,6.172,6.041c0,1.695-0.718,3.24-1.979,4.352c0.193-0.51,0.293-1.045,0.293-1.602c0-2.76-2.266-5-5.046-5c-0.256,0-0.528,0.018-0.747,0.05C8.465,9.653,8.328,9.81,8.328,9.995v2.074L4.027,7.771z"></path>
               </svg>
-
-
               {`Adicionar Nova Rota`}
             </h1>
           </div>
@@ -360,22 +299,18 @@ export function RecycleRoutePage() {
                 <div className="contact-cnpj-div">
                   {/* <div> */}
                   <label className="form-label">Nome da Rota</label>
-                  <input className="form-input form-input-resp" size={28} defaultValue={editedRoute?.nomeRota} type="text" id="nomeRota" onChange={evt => updateStateWithInputValue(evt)} />
+                  <input className="form-input form-input-resp" size={24} type="text" id="nomeRota" onChange={evt => updateStateWithInputValue(evt)} />
                   <label style={{ paddingLeft: '18px' }} className="form-label">Vendedor</label>
 
                   <select className="form-input" value={selectedOption} onChange={handleDropDownChange}>
-                    <option selected={false} key='0' value="">(selecione)</option>
+                    <option value="">(selecione)</option>
                     {fieldSellers.map((elem) => {
-                      return <option key={elem['id']} id="id_field_seller" value={`${elem['id']}`}>{elem['nome']}</option>
+                      return <option id="idFieldSeller" value={`${elem['id']}`}>{elem['nome']}</option>
                     })}
                   </select>
-
-                  <label style={{ paddingLeft: '12px' }} className="form-label">Início</label>
-                  <input className="form-input" defaultValue={''} type="date" id="dataInicial" onChange={evt => updateStateWithInputValue(evt)} />
-
-                </div>
-                <div className="contact-cnpj-div" style={{ marginTop: '16px' }}>
-
+                  < label style={{ paddingLeft: '18px' }} className="form-label">Data Prev. Início</label>
+                  <input className="form-input" type="date" id="dataInicial" onChange={evt => updateStateWithInputValue(evt)} />
+                  {/* </div> */}
                 </div>
 
               </div>

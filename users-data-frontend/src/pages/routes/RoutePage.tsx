@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { RouteCard } from "../components/RouteCard";
+import { RouteCard } from "../../components/RouteCard";
 import { useNavigate } from 'react-router-dom';
-import { api_url } from "../../serverurl";
+import { api_url } from "../../../serverurl";
 
 type RouteProps = {
   ID: number;

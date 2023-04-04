@@ -1,23 +1,22 @@
 import { useState, useEffect } from "react";
-import { ShortCustommerCard } from "../components/ShortCustomCard";
+import { ShortCustommerCard } from "../../components/ShortCustomCard";
 import { useNavigate } from 'react-router-dom';
-import { CustommerCardToPrint } from "../components/CustommerCardToPrint";
-import { api_url } from "../../serverurl";
+import { CustommerCardToPrint } from "../../components/CustommerCardToPrint";
+import { api_url } from "../../../serverurl";
 
 type Route = {
   "idSeller"?: number,
-  "routeId"?: number,
+  "idRoute"?: number,
   "contato"?: string,
   "nomeRota"?: string,
   "dataInicial"?: string,
   "dataFinal"?: string,
   "valorTotal"?: number,
-  "fieldSellerId"?: number,
+  "idFieldSeller"?: number,
   "clients"?: Number[]
 }
 
-export function EditRoutePage() {
-  const [newRoute, setNewRoute] = useState({});
+export function RecycleRoutePage() {
   const [allCustommers, setAllCustommers] = useState([]);
   const [fieldSellers, setFieldSellers] = useState(Array<DropDownOption>);
   const [selectedOption, setSelectedOption] = useState("");
@@ -65,25 +64,24 @@ export function EditRoutePage() {
   function loadData(sellerId: number) {
     // setPrintScreen(false);
     const routeId = getIdByParams();
-
-    const fetchUrlCustommers: string = `${BASE_URL}/custommer/${sellerId}`;
+    const fetchUrlCustommers: string = `${BASE_URL}/alldependents/${sellerId}`;
     fetch(fetchUrlCustommers)
       .then(response => response.json())
-      .then(res => { setAllCustommers(res), setFilteredCustommers(res); })
-      .catch(err => console.log(err));
-
-    const fetchUrlFieldSellers: string = `${BASE_URL}/fieldseller/${sellerId}`;
-    fetch(fetchUrlFieldSellers)
-      .then(response => response.json())
-      .then(res => { generateDropDownOptions(res) })
+      .then(res => { preSetCustommers(res); })
       .catch(err => console.log(err));
 
     const fetchUrlSelectedCustommersId: string = `${BASE_URL}/routedata/${routeId}`;
     fetch(fetchUrlSelectedCustommersId)
       .then(response => response.json())
-      .then(res => { setToPrintQueue(res['selectedCustommers']), preSetEditedRoute(res), setSelectedOption(res['route'].fieldSellerId) })
+      .then(res => { setToPrintQueue(res['selectedCustommers']), preSetEditedRoute(res), setSelectedOption(res['route'].idFieldSeller) })
       .catch(err => console.log(err));
   };
+
+  function preSetCustommers(res: any) {
+    setAllCustommers(res['custommers']);
+    setFilteredCustommers(res['custommers']);
+    generateDropDownOptions(res['fieldSellers']);
+  }
 
   function preSetEditedRoute(res: any) {
     setEditedRoute({
@@ -206,7 +204,7 @@ export function EditRoutePage() {
     // console.log('v selec: ', typeof event.target.value);
     setEditedRoute({
       ...editedRoute,
-      'fieldSellerId': event.target.value
+      'idFieldSeller': event.target.value
     })
   }
 
@@ -222,36 +220,61 @@ export function EditRoutePage() {
     let routeAux: Route = editedRoute as Route;
     const value: any = event.target.value;
     const field: string = event.target.id;
-    if ('nomeRota' == field || 'dataInicial' == field
-      || 'dataFinal' == field || 'valorTotal' == field) {
+    if ('nomeRota' == field || 'dataInicial' == field) {
       routeAux[field] = value;
     }
     setEditedRoute(routeAux);
   }
 
   function handleAddBtnClick() {
-    if (isAuthenticated) {
-      const url = `${BASE_URL}/route/${editedRoute?.routeId}`;
+    const storage = localStorage.getItem('user');
+    if (isAuthenticated && storage) {
+    //   const url = `${BASE_URL}/route/${editedRoute?.routeId}`;
 
-      console.log('prefetch handleAddBtnClick, estado editedRoute', editedRoute);
+    //   console.log('prefetch handleAddBtnClick, estado editedRoute', editedRoute);
 
-      fetch(url, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
-        body: JSON.stringify(editedRoute)
-      })
-        .then(res => {
-          console.log(res);
-          if (res.status == 200) {
-            // setConfirmScreen(true);
-            setTimeout(() => {
+    //   fetch(url, {
+    //     method: "PUT",
+    //     headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
+    //     body: JSON.stringify(editedRoute)
+    //   })
+    //     .then(res => {
+    //       console.log(res);
+    //       if (res.status == 200) {
+    //         // setConfirmScreen(true);
+    //         setTimeout(() => {
 
-              navigate('/rotas');
-            }, 2000);
-          }
-        })
-        .catch(err => console.log(err));
+    //           navigate('/rotas');
+    //         }, 2000);
+    //       }
+    //     })
+    //     .catch(err => console.log(err));
+    // }
+
+
+    const newRoute = {
+      "idSeller": JSON.parse(storage).id,
+      "idFieldSeller": editedRoute?.idFieldSeller,
+      "nomeRota": editedRoute?.nomeRota,
+      "dataInicial": editedRoute?.dataInicial,
+      "clients": toPrintQueue
     }
+    console.log('prefetch handleAddBtnClick, estado newRoute', newRoute, editedRoute);
+
+
+    fetch(`${BASE_URL}/route`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
+      body: JSON.stringify(newRoute)
+    })
+      .then(res => {
+        console.log(res);
+        if (res.status == 201) {
+          // setConfirmScreen(true);
+        }
+      })
+      .catch(err => console.log(err));
+  }
   }
 
   return (
@@ -323,7 +346,7 @@ export function EditRoutePage() {
               </svg>
 
 
-              {`Editar Rota Nro.: ${editedRoute?.routeId}`}
+              {`Adicionar Nova Rota`}
             </h1>
           </div>
 
@@ -345,19 +368,13 @@ export function EditRoutePage() {
                       return <option key={elem['id']} id="id_field_seller" value={`${elem['id']}`}>{elem['nome']}</option>
                     })}
                   </select>
-                  {/* < label style={{ paddingLeft: '18px' }} className="form-label">Data Inicial</label>
-                  <input className="form-input" defaultValue={editedRoute?.dataInicial?.toString().split('T')[0]} type="date" id="dataInicial" onChange={evt => updateStateWithInputValue(evt)} /> */}
-                  {/* </div> */}
-                </div>
-                <div className="contact-cnpj-div" style={{ marginTop: '16px' }}>
-                  <label className="form-label">Total(R$)</label>
-                  <input className="form-input form-input-resp" size={10} defaultValue={editedRoute?.valorTotal} type="text" id="valorTotal" onChange={evt => updateStateWithInputValue(evt)} />
 
                   <label style={{ paddingLeft: '12px' }} className="form-label">Início</label>
-                  <input className="form-input" defaultValue={editedRoute?.dataInicial} type="date" id="dataInicial" onChange={evt => updateStateWithInputValue(evt)} />
+                  <input className="form-input" defaultValue={''} type="date" id="dataInicial" onChange={evt => updateStateWithInputValue(evt)} />
 
-                  <label style={{ paddingLeft: '12px' }} className="form-label">Fim</label>
-                  <input className="form-input" defaultValue={editedRoute?.dataFinal} type="date" id="dataFinal" onChange={evt => updateStateWithInputValue(evt)} />
+                </div>
+                <div className="contact-cnpj-div" style={{ marginTop: '16px' }}>
+
                 </div>
 
               </div>
