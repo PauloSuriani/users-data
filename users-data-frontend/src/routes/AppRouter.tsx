@@ -10,11 +10,11 @@ import { ProductsPage } from "../pages/ProductsPage"
 import { NewCustommerForm } from '../pages/NewCustommerForm';
 import { NewProduct } from '../pages/NewProductForm';
 import { EditProduct } from '../pages/EditProduct';
-import { RoutePage } from '../pages/RoutePage';
-import { NewRoutePage } from '../pages/NewRoutePage';
-import { EditRoutePage } from '../pages/EditRoutePage';
-import { FinishRoutePage } from '../pages/FinishRoute';
-import { RecycleRoutePage } from '../pages/RecycleRoute';
+import { RoutePage } from '../pages/routes/RoutePage';
+import { NewRoutePage } from '../pages/routes/NewRoutePage';
+import { EditRoutePage } from '../pages/routes/EditRoutePage';
+import { FinishRoutePage } from '../pages/routes/FinishRoute';
+import { RecycleRoutePage } from '../pages/routes/RecycleRoute';
 
 export function AppRouter() {
 return (
