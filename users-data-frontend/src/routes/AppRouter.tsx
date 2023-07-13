@@ -15,6 +15,7 @@ import { NewRoutePage } from '../pages/routes/NewRoutePage';
 import { EditRoutePage } from '../pages/routes/EditRoutePage';
 import { FinishRoutePage } from '../pages/routes/FinishRoute';
 import { RecycleRoutePage } from '../pages/routes/RecycleRoute';
+import { InventoryPage } from '../pages/inventory/InventoryPage';
 
 export function AppRouter() {
 return (
@@ -32,6 +33,7 @@ return (
       <Route path="/rotas/nova/:id" element={<RecycleRoutePage/>} />
       <Route path="/rotas/edit/:id" element={<EditRoutePage/>} />
       <Route path="/rotas/finalizar/:id" element={<FinishRoutePage/>} />
+      <Route path="/estoque" element={<InventoryPage/>} />
     </Routes>
   </Router>
 );} 
