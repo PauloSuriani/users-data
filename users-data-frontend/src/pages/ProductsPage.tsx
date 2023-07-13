@@ -18,7 +18,7 @@ export function ProductsPage() {
 	const [allProducts, setAllProducts] = useState([]);
 	const [filteredProducts, setFilteredProducts] = useState([]);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [listOrderInverter, setListOrderInverter] = useState<FlexDirection>('column')
+	const [listOrderInverter, setListOrderInverter] = useState<FlexDirection>('column');
 	const [svgRotate, setSvgRotate] = useState(
 		{
 			codigo: 'rotate(180deg)',

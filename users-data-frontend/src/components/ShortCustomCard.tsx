@@ -29,7 +29,7 @@ export function ShortCustommerCard(
       <div className=''>
         <div className='grow-try'>
 
-          <input type="radio" checked={toPrintQueue.includes(props['id'])} />
+          <input type="radio" checked={toPrintQueue.includes(props.id)} />
 
 
           <div className="div-svg-custommer-card-sm-combo" style={{paddingLeft: '6px'}}>
