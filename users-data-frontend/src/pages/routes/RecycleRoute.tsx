@@ -73,7 +73,11 @@ export function RecycleRoutePage() {
     const fetchUrlSelectedCustommersId: string = `${BASE_URL}/routedata/${routeId}`;
     fetch(fetchUrlSelectedCustommersId)
       .then(response => response.json())
-      .then(res => { setToPrintQueue(res['selectedCustommers']), preSetEditedRoute(res), setSelectedOption(res['route'].idFieldSeller) })
+      .then(res => {
+        setToPrintQueue(res['selectedCustommers']),
+          preSetEditedRoute(res),
+          setSelectedOption(res['route'].idFieldSeller)
+      })
       .catch(err => console.log(err));
   };
 
@@ -229,52 +233,30 @@ export function RecycleRoutePage() {
   function handleAddBtnClick() {
     const storage = localStorage.getItem('user');
     if (isAuthenticated && storage) {
-    //   const url = `${BASE_URL}/route/${editedRoute?.routeId}`;
 
-    //   console.log('prefetch handleAddBtnClick, estado editedRoute', editedRoute);
-
-    //   fetch(url, {
-    //     method: "PUT",
-    //     headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
-    //     body: JSON.stringify(editedRoute)
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //       if (res.status == 200) {
-    //         // setConfirmScreen(true);
-    //         setTimeout(() => {
-
-    //           navigate('/rotas');
-    //         }, 2000);
-    //       }
-    //     })
-    //     .catch(err => console.log(err));
-    // }
+      const newRoute = {
+        "idSeller": JSON.parse(storage).id,
+        "idFieldSeller": editedRoute?.idFieldSeller,
+        "nomeRota": editedRoute?.nomeRota,
+        "dataInicial": editedRoute?.dataInicial,
+        "clients": toPrintQueue
+      }
+      console.log('prefetch handleAddBtnClick, estado newRoute', newRoute, editedRoute);
 
 
-    const newRoute = {
-      "idSeller": JSON.parse(storage).id,
-      "idFieldSeller": editedRoute?.idFieldSeller,
-      "nomeRota": editedRoute?.nomeRota,
-      "dataInicial": editedRoute?.dataInicial,
-      "clients": toPrintQueue
-    }
-    console.log('prefetch handleAddBtnClick, estado newRoute', newRoute, editedRoute);
-
-
-    fetch(`${BASE_URL}/route`, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
-      body: JSON.stringify(newRoute)
-    })
-      .then(res => {
-        console.log(res);
-        if (res.status == 201) {
-          // setConfirmScreen(true);
-        }
+      fetch(`${BASE_URL}/route`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json', 'Acept': '*/*' },
+        body: JSON.stringify(newRoute)
       })
-      .catch(err => console.log(err));
-  }
+        .then(res => {
+          console.log(res);
+          if (res.status == 201) {
+            // setConfirmScreen(true);
+          }
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   return (
@@ -362,10 +344,29 @@ export function RecycleRoutePage() {
                   <input className="form-input form-input-resp" size={28} defaultValue={editedRoute?.nomeRota} type="text" id="nomeRota" onChange={evt => updateStateWithInputValue(evt)} />
                   <label style={{ paddingLeft: '18px' }} className="form-label">Vendedor</label>
 
-                  <select className="form-input" value={selectedOption} onChange={handleDropDownChange}>
-                    <option selected={false} key='0' value="">(selecione)</option>
+                  {/* DROP DOWN MENU */}
+                  <select
+                    className="form-input"
+                    value={selectedOption}
+                    onChange={handleDropDownChange}
+                  >
+                    <option
+                      selected={false}
+                      key='0' value=""
+                    >
+                      (selecione)
+                    </option>
+
                     {fieldSellers.map((elem) => {
-                      return <option key={elem['id']} id="id_field_seller" value={`${elem['id']}`}>{elem['nome']}</option>
+                      return (
+                        <option
+                          key={elem['id']}
+                          id="id_field_seller"
+                          value={`${elem['id']}`}
+                        >
+                          {elem['nome']}
+                        </option>
+                      )
                     })}
                   </select>
 
